@@ -74,14 +74,14 @@ export default class Register extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.backButtonContainer}>
+				{/*<View style={styles.backButtonContainer}>
 						<TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
       						<Image
 	        					style={styles.backButton}
 	        					source={require('../icons/back_arrow.png')}
 	      					/>
     					</TouchableOpacity>
-				</View>
+				</View>*/}
 				<View style={styles.textContainer}>
 					<Text style={styles.text}>Register</Text>
 				</View>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 	createButton: {
 		fontWeight: 'bold'
 	},
-	backButton: {
+	/*backButton: {
 		width: 35,
 		height: 35
 	},
@@ -187,5 +187,5 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		justifyContent: 'flex-end',
 		padding: 7
-	}
+	}*/
 });
