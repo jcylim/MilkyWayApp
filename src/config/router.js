@@ -1,14 +1,32 @@
 import React from 'react';
-import { TabNavigator, StackNavigator, TabBarTop, TabBarBottom } from 'react-navigation';
+import { TabNavigator, StackNavigator, TabBarTop, TabBarBottom, DrawerNavigator } from 'react-navigation';
 import { Image } from 'react-native';
 
 import Login from '../Login/login';
 import Register from '../SignUp/register';
 import PhoneRegister from '../SignUp/phoneRegister';
-import Explore from '../Main/explore';
+import ExploreContent from '../Main/explore';
 import Subscriptions from '../Main/subscriptions';
 import Points from '../Main/points';
 import CodeVerification from '../SignUp/codeVerification';
+import DrawerScreen from '../Main/drawer';
+
+const DrawerContent = DrawerNavigator({
+  Home: {
+    screen: ExploreContent,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Drawer: {
+    screen: DrawerScreen,
+  },
+},
+  {
+    drawerWidth: 200,
+    //contentComponent: props => <ScrollView><DrawerItems {...props} /></ScrollView>
+  }
+);
 
 const MainTabs = TabNavigator({
   Subscriptions: {
@@ -23,7 +41,7 @@ const MainTabs = TabNavigator({
       ),
     }},
   Explore: {
-    screen: Explore,
+    screen: DrawerContent,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
         <Image

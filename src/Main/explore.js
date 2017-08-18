@@ -11,6 +11,7 @@ import {
 	Platform, 
 	StatusBar, 
 	Image } from 'react-native';
+import { DrawerNavigator } from 'react-navigation';
 	
 let listener = null
 
@@ -29,26 +30,21 @@ export default class Explore extends Component {
 		this.openDrawer = this.openDrawer.bind(this);
 	}
 
-  	navigationView(){
+  	/*navigationView(){
 	    return(
 	      <View style={{flex: 1, backgroundColor: 'transparent'}}>
 	      	<Text style={{margin: 10, fontSize: 15, textAlign: 'left', color: '#800080'}}>I'm in the Drawer!</Text> 
 	      </View>
     	)
-  	}
+  	}*/
 
   	openDrawer() {
-  		this.drawer.openDrawer();
+  		this.props.navigation.navigate('DrawerOpen');
   	}
 
 	render() {
 		return (
-	    	<DrawerLayoutAndroid
-			    drawerWidth={200}
-			    ref={(_drawer) => this.drawer = _drawer}
-			    drawerPosition={DrawerLayoutAndroid.positions.Left}
-			    renderNavigationView={() => this.navigationView()}>
-			    <View style={styles.container}>
+	        <View style={styles.container}>
 			    	<View style={styles.navBarContainer}>
 			    		<View style={styles.profileButtonContainer}>
 				    		<TouchableOpacity onPress={this.openDrawer}>
@@ -67,11 +63,43 @@ export default class Explore extends Component {
 						</View>
 						<View style={styles.extraContainer}/>
 				  	</View>
-		    	</View>
-	        </DrawerLayoutAndroid>
+		    </View>
 	    );
 	}
 }
+
+/*class DrawerScreen extends Component {
+  static navigationOptions = {
+    drawerLabel: 'Drawer',
+    drawerIcon: ({ tintColor }) => (
+      <Text>YEEEEE</Text>
+    ),
+  };
+
+  render() {
+    return (
+      <Button
+        onPress={() => this.props.navigation.goBack()}
+        title="Go back home"
+      />
+    );
+  }	
+}
+
+export default class Explore extends Component {
+  state = {};
+
+  render() {
+  	return (
+  		const drawer = DrawerNavigator({ 
+	    	Content: 
+	    	DrawerScreen: { 
+	    		screen: DrawerScreen } 
+	    	},
+		);
+  	);
+  }
+}*/
 
 const styles = StyleSheet.create({
 
