@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TextInput, Text, Image, TouchOpacity, BackAndroid, Platform, ToastAndroid } from 'react-native';
+import {  NavigationActions } from 'react-navigation'
 
 /*// Default behavior: returning false exits the app.
 let backButtonPressFunction = () => false*/
@@ -33,8 +34,22 @@ export default class CodeVerification extends Component {
   	}
 
   	nextStep() {
-  		this.props.navigation.navigate('Explore');
+  		const navAction = NavigationActions.navigate({
+		  routeName: 'Explore',
+		  // navigate can have a nested navigate action that will be run inside the child router
+		  //action: NavigationActions.navigate({ routeName: 'Explore'})
+		})
+		this.props.navigation.dispatch(navAction);
   	}
+
+  	/*nextStep = () => {
+		const navAction = NavigationActions.navigate({
+		  routeName: 'Explore',
+		  // navigate can have a nested navigate action that will be run inside the child router
+		  //action: NavigationActions.navigate({ routeName: 'Explore'})
+		})
+		this.props.navigation.dispatch(navAction);
+	};*/
 
 	render() {
 		return(
@@ -93,7 +108,7 @@ export default class CodeVerification extends Component {
 						maxLength={1}
 						blurOnSubmit={ true }
 			          	onChange={() => {
-			            	this.nextStep();
+			          		this.nextStep();
 			          	}}
 			          	returnKeyType={ 'done' }
 			          	ref={ input => {

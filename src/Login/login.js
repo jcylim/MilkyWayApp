@@ -29,11 +29,10 @@ export default class Login extends Component {
 	      console.log(Object.keys(error));// print all enumerable 
 	      console.log(error.errorMessage); // print error message
 	      // error.toString() will not work correctly in this case
-	      // so let use JSON.stringify()
-	      userJSON = JSON.stringify(error); // error object => json 
+	      // so let use JSON.stringify()WS json S
 	      console.log(userJSON); // print JSON 
 	    } else {
-	      //alert('Success fetching data: ' + result.toString());
+	      //alert('Success fetching data: ' + result.toString());S
 	      console.log(Object.keys(result)); 
 	      userJSON = JSON.stringify(result); // result => JSON
 	      console.log(userJSON); // print JSON
