@@ -12,9 +12,10 @@ import {
 	Platform, 
 	StatusBar, 
 	Image,
-	ListView } from 'react-native';
+	ListView,
+	ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation'
-import { Card, Button } from 'react-native-material-design';
+//import { Card, Button } from 'react-native-material-design';
 
 let listener = null
 const ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 != row2});
@@ -190,7 +191,7 @@ export default class Explore extends Component {
 					  		</TouchableOpacity>
 						</View>
 				  	</View>
-				  	<View style={styles.contentContainer}>
+				  	{/*<View style={styles.contentContainer}>
 				  		<ListView
 				  			//data
 				  			renderRow={() => {
@@ -206,7 +207,7 @@ export default class Explore extends Component {
                 					</Card>
 				  			}}
 				  		/>
-				  	</View>
+				  	</View>*/}
 		    	</View>
 	        </DrawerLayoutAndroid>
 	    );

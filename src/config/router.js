@@ -12,6 +12,7 @@ import Activity from '../Main/activity';
 import Profile from '../Main/profile';
 import Setting from '../Main/setting';
 import CodeVerification from '../SignUp/codeVerification';
+//import BusinessCard from '../SignUp/codeVerification';
 
 /*const MainTabs = TabNavigator({
   Subscriptions: {
