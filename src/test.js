@@ -1,78 +1,58 @@
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  ToastAndroid
-} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, ToastAndroid, TouchableOpacity, Image } from 'react-native';
+import MapView from 'react-native-maps';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import {
-  Card,
-  CardTitle,
-  CardImage,
-  CardContent,
-  CardAction
-} from 'react-native-card-view';
-import 
+export default class MapTest extends React.Component {
+  render() {
+    const { region } = this.props;
+    console.log(region);
 
-export default class CardExample extends Component {
-
-  _renderTitle (title) {
     return (
-      <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
-        <Text style={{fontSize: 20}}>{title}</Text>
+      <View style ={styles.container}>
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        >
+          <View style={{alignItems: 'flex-end'}}>
+            <Icon 
+              name='search'
+              size={25}
+              color='#800080'
+            />
+          </View>
+          <MapView.Marker
+            coordinate={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+            }}
+          />
+        </MapView>
       </View>
-    )
-  }
-
-  render () {
-    return (
-      <ScrollView>
-        <View style={styles.container}>
-          {this._renderTitle('Card Image')}
-          <Card>
-            {/*<CardImage>
-              <Image
-                style={{width: 256, height: 256}}
-                source={{uri: 'https://getmdl.io/assets/demos/image_card.jpg'}}
-              >
-                <Text style={[styles.title, {alignSelf: 'center'}]}>Beautiful Girl</Text>
-              </Image>
-            </CardImage>*/}
-            <CardAction>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {ToastAndroid.show('pressed', ToastAndroid.LONG)}}>
-                  <Image
-                    style={{width: 256, height: 256}}
-                    source={{uri: 'https://getmdl.io/assets/demos/image_card.jpg'}}
-                  >
-                    <Text style={[styles.title, {alignSelf: 'center'}]}>Beautiful Girl</Text>
-                  </Image>
-              </TouchableOpacity>
-            </CardAction>
-          </Card>
-        </View>
-      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
-  title: {
-    fontSize: 38,
-    backgroundColor: 'transparent'
+  map: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute'
   },
-  button: {
-    marginRight: 10
-  },
-  card: {
-    width: 300
-  }
 });

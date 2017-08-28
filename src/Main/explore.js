@@ -15,7 +15,9 @@ import {
 	ListView,
 	ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation'
-//import { Card, Button } from 'react-native-material-design';
+import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
+import { samples } from '../components/businessInfo';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 let listener = null
 const ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 != row2});
@@ -84,10 +86,12 @@ export default class Explore extends Component {
 	    return(
 	      <View style={{flex: 2, backgroundColor: 'transparent'}}>
 	      	<View style={styles.profileContainer}>
-	      		<Image
-	      			style={styles.profilePic}
-	      			source={require('../images/avatar-512.png')}
-	      		/>
+	      		<Avatar
+				  large
+				  rounded
+				  icon={{name: 'person', color: '#800080'}}
+				  //source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+				/>
 	      		<Text style={styles.profileName}>Jonathan Lim</Text>
 	      	</View>
 	      	<View style={styles.navSection}>
@@ -96,12 +100,12 @@ export default class Explore extends Component {
 		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
 		      			onPress={this.profileScreen}
 		      			>
-			      		<View>
-		      				{/*<Image 
-			      				style={{width: 30, height: 30}}
-			      				source={require('../icons/account.png')}
-		      				/>*/}
-							<Text style={{color: '#800080', fontSize: 20}}>Profile</Text>
+			      		<View style={{flexDirection: 'row'}}>
+		      				<Icon  
+			      				name='account-box'
+			      				size={30}
+		      				/>
+							<Text style={{color: '#800080', fontSize: 20}}>  Profile</Text>
 						</View>
 					</TouchableOpacity>
 				</View>
@@ -110,12 +114,12 @@ export default class Explore extends Component {
 		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
 		      			onPress={this.activityScreen}
 		      			>
-			      		<View>
-		      				{/*<Image 
-			      				style={{width: 30, height: 30}}
-			      				source={require('../icons/account.png')}
-		      				/>*/}
-							<Text style={{color: '#800080', fontSize: 20}}>Activity</Text>
+			      		<View style={{flexDirection: 'row'}}>
+		      				<Icon  
+			      				name='assessment'
+			      				size={30}
+		      				/>
+							<Text style={{color: '#800080', fontSize: 20}}>  Activity</Text>
 						</View>
 					</TouchableOpacity>
 				</View>
@@ -124,12 +128,12 @@ export default class Explore extends Component {
 		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
 		      			onPress={this.pointsScreen}
 		      			>
-			      		<View>
-		      				{/*<Image 
-			      				style={{width: 30, height: 30}}
-			      				source={require('../icons/account.png')}
-		      				/>*/}
-							<Text style={{color: '#800080', fontSize: 20}}>Points</Text>
+			      		<View style={{flexDirection: 'row'}}>
+		      				<Icon  
+			      				name='loyalty'
+			      				size={30}
+		      				/>
+							<Text style={{color: '#800080', fontSize: 20}}>  Points</Text>
 						</View>
 					</TouchableOpacity>
 				</View>
@@ -138,7 +142,13 @@ export default class Explore extends Component {
 		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
 		      			onPress={this.settingScreen}
 		      			>
-						<Text style={{color: '#800080', fontSize: 20}}>Setting</Text>
+						<View style={{flexDirection: 'row'}}>
+		      				<Icon  
+			      				name='settings'
+			      				size={30}
+		      				/>
+							<Text style={{color: '#800080', fontSize: 20}}>  Setting</Text>
+						</View>
 					</TouchableOpacity>
 				</View>
 	      	</View>
@@ -191,23 +201,35 @@ export default class Explore extends Component {
 					  		</TouchableOpacity>
 						</View>
 				  	</View>
-				  	{/*<View style={styles.contentContainer}>
-				  		<ListView
-				  			//data
-				  			renderRow={() => {
-				  				return 
-				  					<Card>
-					                    <Card.Media
-					                        image={<Image source={require('../images/business_image_3.png')} />}
-					                        overlay
-					                    />
-					                    <Card.Body>
-					                        <Text>Some text to go in the body.</Text>
-					                    </Card.Body>
-                					</Card>
-				  			}}
-				  		/>
-				  	</View>*/}
+				  	<ScrollView>
+				        <View style={styles.cardsContainer}>
+				          {samples.map((sample, i) => (
+				            <Tile
+				              key={i}
+				              imageSrc={{uri: sample.image}}
+				              title='Business Name'
+				              titleStyle={{fontSize: 15, color: '#800080'}}
+				              //featured
+				              //height={180}
+				              contentContainerStyle={{height: 70}}
+				            >
+				              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+				                <Text style={{fontSize: 12}}>Business Address</Text>
+				                <View style={{flexDirection: 'row'}}>
+				                	<Text style={{fontSize: 12}}>Number of Miles Away   </Text>
+				                	<TouchableOpacity>
+					                	<Icon 
+					                		name='navigation'
+					                		size={25}
+					                		color='#800080'
+					                	/>
+					                </TouchableOpacity>
+				                </View>
+				              </View>
+				            </Tile>
+				          ))}
+				        </View>
+				    </ScrollView>
 		    	</View>
 	        </DrawerLayoutAndroid>
 	    );
@@ -236,6 +258,11 @@ const styles = StyleSheet.create({
 	profileButtonContainer: {
 		flex: 1,
 		justifyContent: 'center'
+	},
+	cardsContainer: {
+	    flex: 1,
+	    justifyContent: 'center',
+	    alignItems: 'center'
 	},
 	button: {
 		width: 30,

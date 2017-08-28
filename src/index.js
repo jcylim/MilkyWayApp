@@ -9,7 +9,6 @@ import MilkyWayStack from './config/router'
 import Explore from './Main/explore';
 import Register from './SignUp/register';
 import PR from './SignUp/phoneRegister';
-import BCard from './Main/businessCardList';
 import Test from './test'
 
 export default class MilkyWayApp extends Component {
