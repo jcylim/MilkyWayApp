@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, ToastAndroid, TouchableOpacity, Image, Dimensio
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
+import { samples } from './components/businessInfo'
+import { MapCallout } from './components/locationCallout'
+
 const { width, height } = Dimensions.get('window')
 
 const screenHeight = height
@@ -74,14 +77,36 @@ export default class MapTest extends React.Component {
         <MapView
           style={styles.map}
           region={ this.state.initialPosition }
+          showsMyLocationButton
         >
+          {samples.map((location, i) => {
+            return (
+              <MapView.Marker
+                key={i}
+                coordinate={{ 
+                  latitude: location.latitude, 
+                  longitude: location.longitude 
+                }}
+              >
+                <MapView.Callout
+                  style={styles.calloutContainer}
+                  tooltip
+                >
+                  <MapCallout
+                    title={'business name b'}
+                    description={'description b'}
+                  />
+                </MapView.Callout>
+              </MapView.Marker>
+            );
+          })}
           <MapView.Marker
             coordinate={ this.state.markerPosition }
           />
         </MapView>
         <View style={styles.searchContainer}>
           <TouchableOpacity
-            onPressed={this.searchPressed}
+            onPress={this.searchPressed}
           >
             <Icon
               name='search'
@@ -118,5 +143,9 @@ const styles = StyleSheet.create({
     height: 50,
     bottom: 20,
     right: 20,
+  },
+  calloutContainer: {
+    width: 140,
+    backgroundColor: '#800080'
   }
 });
