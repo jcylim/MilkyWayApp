@@ -5,8 +5,6 @@ import { sliderWidth, itemWidth } from './components/testSliderStyle';
 import SliderEntry from './components/testSlider';
 import styles, { colors } from './components/testStyle';
 import { ENTRIES1, ENTRIES2 } from './components/testData';
-import { samples } from './components/businessInfo';
-import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
 
 const SLIDER_1_FIRST_ITEM = 1;
 
@@ -40,24 +38,67 @@ export default class example extends Component {
         );
     }
 
-    get example () {
+    get example1 () {
+        const { slider1ActiveSlide, slider1Ref } = this.state;
+
         return (
             <View style={styles.exampleContainer}>
-                <Text style={styles.title}>Near Me</Text>
+                <Text style={styles.title}>Example 1</Text>
+                <Text style={styles.subtitle}>
+                    No momentum | Parallax | Scale | Opacity | Pagination with tappable dots
+                </Text>
                 <Carousel
-               	  data={ENTRIES2}
+                  ref={(c) => { if (!this.state.slider1Ref) { this.setState({ slider1Ref: c }); } }}
+                  data={ENTRIES1}
                   renderItem={this._renderItemWithParallax}
                   sliderWidth={sliderWidth}
                   itemWidth={itemWidth}
                   hasParallaxImages={true}
+                  firstItem={SLIDER_1_FIRST_ITEM}
                   inactiveSlideScale={0.94}
                   inactiveSlideOpacity={0.6}
+                  enableMomentum={false}
+                  containerCustomStyle={styles.slider}
+                  contentContainerCustomStyle={styles.sliderContentContainer}
+                  scrollEndDragDebounceValue={Platform.OS === 'ios' ? 0 : 100}
+                  onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
+                />
+                <Pagination
+                  dotsLength={ENTRIES1.length}
+                  activeDotIndex={slider1ActiveSlide}
+                  containerStyle={styles.paginationContainer}
+                  dotColor={'rgba(255, 255, 255, 0.92)'}
+                  dotStyle={styles.paginationDot}
+                  inactiveDotColor={colors.black}
+                  inactiveDotOpacity={0.4}
+                  inactiveDotScale={0.6}
+                  carouselRef={slider1Ref}
+                  tappableDots={!!slider1Ref}
+                />
+            </View>
+        );
+    }
+
+    get example2 () {
+        return (
+            <View style={styles.exampleContainer}>
+                <Text style={styles.title}>Example 2</Text>
+                <Text style={styles.subtitle}>Momentum | Left-aligned | Autoplay</Text>
+                <Carousel
+                  data={ENTRIES2}
+                  renderItem={this._renderItem}
+                  sliderWidth={sliderWidth}
+                  itemWidth={itemWidth}
+                  inactiveSlideScale={1}
+                  inactiveSlideOpacity={1}
                   enableMomentum={true}
+                  activeSlideAlignment={'start'}
                   autoplay={true}
-                  autoplayDelay={1500}
+                  autoplayDelay={500}
                   autoplayInterval={2500}
                   containerCustomStyle={styles.slider}
                   contentContainerCustomStyle={styles.sliderContentContainer}
+                  removeClippedSubviews={false}
                 />
             </View>
         );
@@ -75,33 +116,11 @@ export default class example extends Component {
                   style={styles.scrollview}
                   contentContainerStyle={styles.scrollviewContentContainer}
                   indicatorStyle={'white'}
-                  //scrollEventThrottle={200}
+                  scrollEventThrottle={200}
                   directionalLockEnabled={true}
                 >
-                    { this.example }
-                    <View style={styles.exampleContainer}>
-				  		<Text style={styles.title}>Explore</Text>
-				  	</View>
-                    <View style={styles.cardsContainer}>
-			          {samples.map((sample, i) => (
-			            <Tile
-			              key={i}
-			              imageSrc={{uri: sample.image}}
-			              title='Business Name'
-			              titleStyle={{fontSize: 15, color: '#800080'}}
-			              //featured
-			              //height={180}
-			              contentContainerStyle={{height: 70}}
-			            >
-			              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-			                <Text style={{fontSize: 12}}>Business Address</Text>
-			                <View style={{flexDirection: 'row'}}>
-			                	<Text style={{fontSize: 12}}>Number of Miles Away   </Text>
-			                </View>
-			              </View>
-			            </Tile>
-			          ))}
-			        </View>
+                    { this.example1 }
+                    { this.example2 }
                 </ScrollView>
             </View>
         );

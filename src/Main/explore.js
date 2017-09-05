@@ -13,14 +13,17 @@ import {
 	StatusBar, 
 	Image,
 	ListView,
-	ScrollView } from 'react-native';
+	ScrollView,
+	Dimensions
+	 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
-import { samples } from '../components/businessInfo';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
+import MWMap from '../components/map'
+import { samples } from '../components/businessInfo';
+
 let listener = null
-const ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 != row2});
 
 export default class Explore extends Component {
 
@@ -201,35 +204,33 @@ export default class Explore extends Component {
 					  		</TouchableOpacity>
 						</View>
 				  	</View>
-				  	<ScrollView>
-				        <View style={styles.cardsContainer}>
-				          {samples.map((sample, i) => (
-				            <Tile
-				              key={i}
-				              imageSrc={{uri: sample.image}}
-				              title='Business Name'
-				              titleStyle={{fontSize: 15, color: '#800080'}}
-				              //featured
-				              //height={180}
-				              contentContainerStyle={{height: 70}}
-				            >
-				              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-				                <Text style={{fontSize: 12}}>Business Address</Text>
-				                <View style={{flexDirection: 'row'}}>
-				                	<Text style={{fontSize: 12}}>Number of Miles Away   </Text>
-				                	<TouchableOpacity>
-					                	<Icon 
-					                		name='navigation'
-					                		size={25}
-					                		color='#800080'
-					                	/>
-					                </TouchableOpacity>
-				                </View>
-				              </View>
-				            </Tile>
-				          ))}
-				        </View>
-				    </ScrollView>
+				  	<View style={{justifyContent: 'center', alignItems: 'center'}}>
+				  		<Text style={{color: '#800080', fontSize: 20}}>Explore</Text>
+				  	</View>
+				  	<View style={{flex: 1}}>
+				  		<ScrollView>
+					        <View style={styles.cardsContainer}>
+					          {samples.map((sample, i) => (
+					            <Tile
+					              key={i}
+					              imageSrc={{uri: sample.image}}
+					              title='Business Name'
+					              titleStyle={{fontSize: 15, color: '#800080'}}
+					              //featured
+					              //height={180}
+					              contentContainerStyle={{height: 70}}
+					            >
+					              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+					                <Text style={{fontSize: 12}}>Business Address</Text>
+					                <View style={{flexDirection: 'row'}}>
+					                	<Text style={{fontSize: 12}}>Number of Miles Away   </Text>
+					                </View>
+					              </View>
+					            </Tile>
+					          ))}
+					        </View>
+					    </ScrollView>
+				  	</View>
 		    	</View>
 	        </DrawerLayoutAndroid>
 	    );
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
 	navBarContainer: {
 		backgroundColor: '#800080',
         flexDirection: 'row',
-        marginBottom: 10,
+        //marginBottom: 10,
         paddingHorizontal: 20,
         paddingVertical: 15,
         justifyContent: 'space-between',
