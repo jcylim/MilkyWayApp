@@ -8,7 +8,7 @@ function wp (percentage) {
     return Math.round(value);
 }
 
-const slideHeight = viewportHeight * 0.4;
+const slideHeight = viewportHeight * 0.3;
 const slideWidth = wp(75);
 const itemHorizontalMargin = wp(2);
 
@@ -22,7 +22,7 @@ export default StyleSheet.create({
         width: itemWidth,
         height: slideHeight,
         paddingHorizontal: itemHorizontalMargin,
-        paddingBottom: 18 // needed for shadow
+        paddingBottom: 10 // needed for shadow
     },
     imageContainer: {
         flex: 1,
@@ -31,7 +31,7 @@ export default StyleSheet.create({
         borderTopRightRadius: entryBorderRadius
     },
     imageContainerEven: {
-        backgroundColor: colors.black
+        backgroundColor: 'white'
     },
     image: {
         ...StyleSheet.absoluteFillObject,
@@ -50,23 +50,25 @@ export default StyleSheet.create({
         backgroundColor: 'white'
     },
     radiusMaskEven: {
-        backgroundColor: colors.black
+        backgroundColor: 'white'
     },
     textContainer: {
-        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         paddingTop: 20 - entryBorderRadius,
         paddingBottom: 20,
         paddingHorizontal: 16,
-        backgroundColor: 'white',
+        backgroundColor: '#bdc3c7',
         borderBottomLeftRadius: entryBorderRadius,
         borderBottomRightRadius: entryBorderRadius
     },
     textContainerEven: {
-        backgroundColor: colors.black
+        backgroundColor: colors.gray
     },
     title: {
-        color: colors.black,
-        fontSize: 13,
+        color: '#800080',
+        fontSize: 15,
         fontWeight: 'bold',
         letterSpacing: 0.5
     },
@@ -75,9 +77,9 @@ export default StyleSheet.create({
     },
     subtitle: {
         marginTop: 6,
-        color: colors.gray,
+        color: 'white',
         fontSize: 12,
-        fontStyle: 'italic'
+        //fontStyle: 'italic'
     },
     subtitleEven: {
         color: 'rgba(255, 255, 255, 0.7)'

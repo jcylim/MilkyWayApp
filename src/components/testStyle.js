@@ -10,25 +10,25 @@ export const colors = {
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#800080'
+        backgroundColor: colors.background1
     },
     gradient: {
         ...StyleSheet.absoluteFillObject
     },
     scrollview: {
         flex: 1,
-        //paddingTop: 50
+        paddingTop: 15
     },
     scrollviewContentContainer: {
         //paddingBottom: 50
     },
     exampleContainer: {
-        marginBottom: 10
+        //marginBottom: 5
     },
     title: {
         paddingHorizontal: 30,
         backgroundColor: 'transparent',
-        color: 'white',
+        color: '#800080',
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -43,7 +43,7 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
     slider: {
-        marginTop: 15
+        marginTop: 10
     },
     sliderContentContainer: {
     },

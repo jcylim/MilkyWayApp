@@ -22,6 +22,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import MWMap from '../components/map'
 import { samples } from '../components/businessInfo';
+import Test from '../test'
 
 let listener = null
 
@@ -171,6 +172,10 @@ export default class Explore extends Component {
   		this.drawer.openDrawer();
   	}
 
+  	searchPressed = () => {
+      ToastAndroid.show('pressed', ToastAndroid.LONG)
+    };
+
 	render() {
 		return (
 	    	<DrawerLayoutAndroid
@@ -204,33 +209,16 @@ export default class Explore extends Component {
 					  		</TouchableOpacity>
 						</View>
 				  	</View>
-				  	<View style={{justifyContent: 'center', alignItems: 'center'}}>
-				  		<Text style={{color: '#800080', fontSize: 20}}>Explore</Text>
-				  	</View>
-				  	<View style={{flex: 1}}>
-				  		<ScrollView>
-					        <View style={styles.cardsContainer}>
-					          {samples.map((sample, i) => (
-					            <Tile
-					              key={i}
-					              imageSrc={{uri: sample.image}}
-					              title='Business Name'
-					              titleStyle={{fontSize: 15, color: '#800080'}}
-					              //featured
-					              //height={180}
-					              contentContainerStyle={{height: 70}}
-					            >
-					              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-					                <Text style={{fontSize: 12}}>Business Address</Text>
-					                <View style={{flexDirection: 'row'}}>
-					                	<Text style={{fontSize: 12}}>Number of Miles Away   </Text>
-					                </View>
-					              </View>
-					            </Tile>
-					          ))}
-					        </View>
-					    </ScrollView>
-				  	</View>
+				  	<Test />
+				  	<TouchableOpacity
+	                  onPress={this.searchPressed}
+	                >
+	                  <Icon
+	                    name='search'
+	                    size={50}
+	                    color='#800080'
+	                  />
+	                </TouchableOpacity>
 		    	</View>
 	        </DrawerLayoutAndroid>
 	    );
