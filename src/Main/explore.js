@@ -19,10 +19,14 @@ import {
 import { NavigationActions } from 'react-navigation'
 import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Swiper from 'react-native-swiper'
 
 import MWMap from '../components/map'
 import { samples } from '../components/businessInfo';
-import Test from '../test'
+import ExploreContent from '../components/exploreContent'
+import Search from '../components/searchButton'
+import Navigation from '../components/navigation'
+import QRScanner from './qrScanner'
 
 let listener = null
 
@@ -116,20 +120,6 @@ export default class Explore extends Component {
 				<View style={styles.navTabContainer}>
 		      		<TouchableOpacity 
 		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
-		      			onPress={this.activityScreen}
-		      			>
-			      		<View style={{flexDirection: 'row'}}>
-		      				<Icon  
-			      				name='assessment'
-			      				size={30}
-		      				/>
-							<Text style={{color: '#800080', fontSize: 20}}>  Activity</Text>
-						</View>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.navTabContainer}>
-		      		<TouchableOpacity 
-		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
 		      			onPress={this.pointsScreen}
 		      			>
 			      		<View style={{flexDirection: 'row'}}>
@@ -138,6 +128,20 @@ export default class Explore extends Component {
 			      				size={30}
 		      				/>
 							<Text style={{color: '#800080', fontSize: 20}}>  Points</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.navTabContainer}>
+		      		<TouchableOpacity 
+		      			style={{width: 250, height: 30, paddingHorizontal: 10}}
+		      			onPress={this.activityScreen}
+		      			>
+			      		<View style={{flexDirection: 'row'}}>
+		      				<Icon  
+			      				name='assessment'
+			      				size={30}
+		      				/>
+							<Text style={{color: '#800080', fontSize: 20}}>  Activity</Text>
 						</View>
 					</TouchableOpacity>
 				</View>
@@ -178,49 +182,48 @@ export default class Explore extends Component {
 
 	render() {
 		return (
-	    	<DrawerLayoutAndroid
-			    drawerWidth={250}
-			    ref={(_drawer) => this.drawer = _drawer}
-			    drawerPosition={DrawerLayoutAndroid.positions.Left}
-			    renderNavigationView={() => this.navigationView()}>
-			    <View style={styles.container}>
-			    	<View style={styles.navBarContainer}>
-			    		<View style={styles.profileButtonContainer}>
-				    		<TouchableOpacity onPress={this.openDrawer}>
-								<Image
-									style={styles.button}
-		        					source={require('../icons/profile.png')}
-	      						/>
-					  		</TouchableOpacity>
-				  		</View>
-			    		<View style={styles.imageContainer}>	
-				    		<Image
-								style={styles.image}
-								source={require('../images/spiral_white.png')}
-								resizeMode='contain'
-							/>
-						</View>
-						<View style={styles.extraContainer}>
-							<TouchableOpacity >
-								<Image
-									style={styles.button}
-		        					source={require('../icons/subs.png')}
-	      						/>
-					  		</TouchableOpacity>
-						</View>
-				  	</View>
-				  	<Test />
-				  	<TouchableOpacity
-	                  onPress={this.searchPressed}
-	                >
-	                  <Icon
-	                    name='search'
-	                    size={50}
-	                    color='#800080'
-	                  />
-	                </TouchableOpacity>
-		    	</View>
-	        </DrawerLayoutAndroid>
+			<Swiper 
+			    style={styles.wrapper}
+			    showsPagination={false}
+			    loop={false}
+			    >
+			    <DrawerLayoutAndroid
+				    drawerWidth={250}
+				    ref={(_drawer) => this.drawer = _drawer}
+				    drawerPosition={DrawerLayoutAndroid.positions.Left}
+				    renderNavigationView={() => this.navigationView()}>
+				    <View style={styles.container}>
+				    	<View style={styles.navBarContainer}>
+				    		<View style={styles.profileButtonContainer}>
+					    		<TouchableOpacity onPress={this.openDrawer}>
+									<Image
+										style={styles.button}
+			        					source={require('../icons/profile.png')}
+		      						/>
+						  		</TouchableOpacity>
+					  		</View>
+				    		<View style={styles.imageContainer}>	
+					    		<Image
+									style={styles.image}
+									source={require('../images/spiral_white.png')}
+									resizeMode='contain'
+								/>
+							</View>
+							<View style={styles.extraContainer}>
+								<TouchableOpacity >
+									<Image
+										style={styles.button}
+			        					source={require('../icons/subs.png')}
+		      						/>
+						  		</TouchableOpacity>
+							</View>
+					  	</View>
+					  	<ExploreContent />
+					  	<Search />
+			    	</View>
+		        </DrawerLayoutAndroid>
+			    <QRScanner />
+			</Swiper>
 	    );
 	}
 }

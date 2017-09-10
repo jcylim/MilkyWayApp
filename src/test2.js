@@ -1,128 +1,160 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StatusBar, Platform } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { sliderWidth, itemWidth } from './components/testSliderStyle';
-import SliderEntry from './components/testSlider';
-import styles, { colors } from './components/testStyle';
-import { ENTRIES1, ENTRIES2 } from './components/testData';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TextInput, 
+  ToastAndroid, 
+  DrawerLayoutAndroid, 
+  TouchableOpacity,
+  TouchableHighlight, 
+  BackHandler, 
+  Platform, 
+  StatusBar, 
+  Image,
+  ListView,
+  ScrollView,
+  Dimensions
+   } from 'react-native';
+import Drawer from 'react-native-drawer'
 
-const SLIDER_1_FIRST_ITEM = 1;
+export default class Application extends Component {  
+  closeControlPanel = () => {
+    this._drawer.close()
+  };
+  openControlPanel = () => {
+    this._drawer.open()
+  };
 
-export default class example extends Component {
-
-    constructor (props) {
-        super(props);
-        this.state = {
-            slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
-            slider1Ref: null
-        };
-    }
-
-    _renderItem ({item, index}) {
-        return (
-            <SliderEntry
-              data={item}
-              even={(index + 1) % 2 === 0}
-            />
-        );
-    }
-
-    _renderItemWithParallax ({item, index}, parallaxProps) {
-        return (
-            <SliderEntry
-              data={item}
-              even={(index + 1) % 2 === 0}
-              parallax={true}
-              parallaxProps={parallaxProps}
-            />
-        );
-    }
-
-    get example1 () {
-        const { slider1ActiveSlide, slider1Ref } = this.state;
-
-        return (
-            <View style={styles.exampleContainer}>
-                <Text style={styles.title}>Example 1</Text>
-                <Text style={styles.subtitle}>
-                    No momentum | Parallax | Scale | Opacity | Pagination with tappable dots
-                </Text>
-                <Carousel
-                  ref={(c) => { if (!this.state.slider1Ref) { this.setState({ slider1Ref: c }); } }}
-                  data={ENTRIES1}
-                  renderItem={this._renderItemWithParallax}
-                  sliderWidth={sliderWidth}
-                  itemWidth={itemWidth}
-                  hasParallaxImages={true}
-                  firstItem={SLIDER_1_FIRST_ITEM}
-                  inactiveSlideScale={0.94}
-                  inactiveSlideOpacity={0.6}
-                  enableMomentum={false}
-                  containerCustomStyle={styles.slider}
-                  contentContainerCustomStyle={styles.sliderContentContainer}
-                  scrollEndDragDebounceValue={Platform.OS === 'ios' ? 0 : 100}
-                  onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
+  navigationView() {
+    return(
+      <View style={{flex: 2, backgroundColor: 'transparent'}}>
+        <View style={styles.profileContainer}>
+          <Avatar
+        large
+        rounded
+        icon={{name: 'person', color: '#800080'}}
+        //source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+      />
+          <Text style={styles.profileName}>Jonathan Lim</Text>
+        </View>
+        <View style={styles.navSection}>
+          <View style={styles.navTabContainer}>
+            <TouchableOpacity 
+              style={{width: 250, height: 30, paddingHorizontal: 10}}
+              onPress={this.profileScreen}
+              >
+              <View style={{flexDirection: 'row'}}>
+                <Icon  
+                  name='account-box'
+                  size={30}
                 />
-                <Pagination
-                  dotsLength={ENTRIES1.length}
-                  activeDotIndex={slider1ActiveSlide}
-                  containerStyle={styles.paginationContainer}
-                  dotColor={'rgba(255, 255, 255, 0.92)'}
-                  dotStyle={styles.paginationDot}
-                  inactiveDotColor={colors.black}
-                  inactiveDotOpacity={0.4}
-                  inactiveDotScale={0.6}
-                  carouselRef={slider1Ref}
-                  tappableDots={!!slider1Ref}
+            <Text style={{color: '#800080', fontSize: 20}}>  Profile</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.navTabContainer}>
+            <TouchableOpacity 
+              style={{width: 250, height: 30, paddingHorizontal: 10}}
+              onPress={this.pointsScreen}
+              >
+              <View style={{flexDirection: 'row'}}>
+                <Icon  
+                  name='loyalty'
+                  size={30}
                 />
+            <Text style={{color: '#800080', fontSize: 20}}>  Points</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.navTabContainer}>
+            <TouchableOpacity 
+              style={{width: 250, height: 30, paddingHorizontal: 10}}
+              onPress={this.activityScreen}
+              >
+              <View style={{flexDirection: 'row'}}>
+                <Icon  
+                  name='assessment'
+                  size={30}
+                />
+            <Text style={{color: '#800080', fontSize: 20}}>  Activity</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.navTabContainer}>
+            <TouchableOpacity 
+              style={{width: 250, height: 30, paddingHorizontal: 10}}
+              onPress={this.settingScreen}
+              >
+          <View style={{flexDirection: 'row'}}>
+                <Icon  
+                  name='settings'
+                  size={30}
+                />
+            <Text style={{color: '#800080', fontSize: 20}}>  Setting</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+        </View>
+        <View style={styles.logoutContainer}>
+          <TouchableOpacity 
+            style={styles.logout}
+            onPress={this.signOut}
+            >
+        <Text style={styles.logoutButton}>Sign Out</Text>
+      </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
+  render () {
+    return (
+      <Drawer
+        type="overlay"
+        content={this.navigationView()}
+        tapToClose={true}
+        openDrawerOffset={0.2} // 20% gap on the right side of drawer
+        panCloseMask={0.2}
+        closedDrawerOffset={-3}
+        styles={drawerStyles}
+        tweenHandler={(ratio) => ({
+          main: { opacity:(2-ratio)/2 }
+        })}
+        >
+          <View style={styles.container}>
+            <View style={styles.navBarContainer}>
+              <View style={styles.profileButtonContainer}>
+                <TouchableOpacity onPress={this.openDrawer}>
+                  <Image
+                    style={styles.button}
+                    source={require('./icons/profile.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageContainer}>  
+                <Image
+                  style={styles.image}
+                  source={require('./images/spiral_white.png')}
+                  resizeMode='contain'
+                />
+              </View>
+              <View style={styles.extraContainer}>
+                <TouchableOpacity >
+                  <Image
+                    style={styles.button}
+                    source={require('./icons/subs.png')}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-        );
-    }
+          </View>
+      </Drawer>
+    )
+  }
+}
 
-    get example2 () {
-        return (
-            <View style={styles.exampleContainer}>
-                <Text style={styles.title}>Example 2</Text>
-                <Text style={styles.subtitle}>Momentum | Left-aligned | Autoplay</Text>
-                <Carousel
-                  data={ENTRIES2}
-                  renderItem={this._renderItem}
-                  sliderWidth={sliderWidth}
-                  itemWidth={itemWidth}
-                  inactiveSlideScale={1}
-                  inactiveSlideOpacity={1}
-                  enableMomentum={true}
-                  activeSlideAlignment={'start'}
-                  autoplay={true}
-                  autoplayDelay={500}
-                  autoplayInterval={2500}
-                  containerCustomStyle={styles.slider}
-                  contentContainerCustomStyle={styles.sliderContentContainer}
-                  removeClippedSubviews={false}
-                />
-            </View>
-        );
-    }
-
-    render () {
-        return (
-            <View style={styles.container}>
-                <StatusBar
-                  translucent={true}
-                  backgroundColor={'rgba(0, 0, 0, 0.3)'}
-                  barStyle={'light-content'}
-                />
-                <ScrollView
-                  style={styles.scrollview}
-                  contentContainerStyle={styles.scrollviewContentContainer}
-                  indicatorStyle={'white'}
-                  scrollEventThrottle={200}
-                  directionalLockEnabled={true}
-                >
-                    { this.example1 }
-                    { this.example2 }
-                </ScrollView>
-            </View>
-        );
-    }
+const drawerStyles = {
+  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
+  main: {paddingLeft: 3},
 }
