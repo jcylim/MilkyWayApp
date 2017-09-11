@@ -18,7 +18,7 @@ import Test2 from './test2'
 export default class MilkyWayApp extends Component {
   render() {
     return (
-      <Test />
+      <MilkyWayStack />
     );
   }
 }

@@ -15,7 +15,7 @@ import {
 	ListView,
 	ScrollView,
 	Dimensions
-	 } from 'react-native';
+	} from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -25,7 +25,6 @@ import MWMap from '../components/map'
 import { samples } from '../components/businessInfo';
 import ExploreContent from '../components/exploreContent'
 import Search from '../components/searchButton'
-import Navigation from '../components/navigation'
 import QRScanner from './qrScanner'
 
 let listener = null
@@ -172,10 +171,6 @@ export default class Explore extends Component {
     	)
   	}
 
-  	openDrawer() {
-  		this.drawer.openDrawer();
-  	}
-
   	searchPressed = () => {
       ToastAndroid.show('pressed', ToastAndroid.LONG)
     };
@@ -183,7 +178,6 @@ export default class Explore extends Component {
 	render() {
 		return (
 			<Swiper 
-			    style={styles.wrapper}
 			    showsPagination={false}
 			    loop={false}
 			    >

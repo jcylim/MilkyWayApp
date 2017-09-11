@@ -20,12 +20,14 @@ import { NavigationActions } from 'react-navigation'
 import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Swiper from 'react-native-swiper'
+import Drawer from 'react-native-drawer'
 
 /*import MWMap from '../components/map'
 import { samples } from '../components/businessInfo';
 import ExploreContent from '../components/exploreContent'
 import Search from '../components/searchButton'*/
-import Navigation from './components/navigation'
+import Main from './components/main'
+import ControlPanel from './components/controlPanel'
 import QRScanner from './Main/qrScanner'
 
 let listener = null
@@ -42,165 +44,62 @@ export default class Explore extends Component {
 
   constructor() {
     super();
-    this.openDrawer = this.openDrawer.bind(this);
+    //this.openDrawer = this.openDrawer.bind(this);
   }
 
-  signOut = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Login',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
+  openDrawer = () => {
+    this._drawer.open()
   };
 
-  profileScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Profile',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
+  searchPressed = () => {
+    ToastAndroid.show('pressed', ToastAndroid.LONG)
   };
-
-  activityScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Activity',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-  pointsScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Points'
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-  settingScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Setting',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-    navigationView() {
-      return(
-        <View style={{flex: 2, backgroundColor: 'transparent'}}>
-          <View style={styles.profileContainer}>
-            <Avatar
-          large
-          rounded
-          icon={{name: 'person', color: '#800080'}}
-          //source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
-        />
-            <Text style={styles.profileName}>Jonathan Lim</Text>
-          </View>
-          <View style={styles.navSection}>
-            <View style={styles.navTabContainer}>
-              <TouchableOpacity 
-                style={{width: 250, height: 30, paddingHorizontal: 10}}
-                onPress={this.profileScreen}
-                >
-                <View style={{flexDirection: 'row'}}>
-                  <Icon  
-                    name='account-box'
-                    size={30}
-                  />
-              <Text style={{color: '#800080', fontSize: 20}}>  Profile</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.navTabContainer}>
-              <TouchableOpacity 
-                style={{width: 250, height: 30, paddingHorizontal: 10}}
-                onPress={this.pointsScreen}
-                >
-                <View style={{flexDirection: 'row'}}>
-                  <Icon  
-                    name='loyalty'
-                    size={30}
-                  />
-              <Text style={{color: '#800080', fontSize: 20}}>  Points</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.navTabContainer}>
-              <TouchableOpacity 
-                style={{width: 250, height: 30, paddingHorizontal: 10}}
-                onPress={this.activityScreen}
-                >
-                <View style={{flexDirection: 'row'}}>
-                  <Icon  
-                    name='assessment'
-                    size={30}
-                  />
-              <Text style={{color: '#800080', fontSize: 20}}>  Activity</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.navTabContainer}>
-              <TouchableOpacity 
-                style={{width: 250, height: 30, paddingHorizontal: 10}}
-                onPress={this.settingScreen}
-                >
-            <View style={{flexDirection: 'row'}}>
-                  <Icon  
-                    name='settings'
-                    size={30}
-                  />
-              <Text style={{color: '#800080', fontSize: 20}}>  Setting</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-          </View>
-          <View style={styles.logoutContainer}>
-            <TouchableOpacity 
-              style={styles.logout}
-              onPress={this.signOut}
-              >
-          <Text style={styles.logoutButton}>Sign Out</Text>
-        </TouchableOpacity>
-          </View>
-        </View>
-      )
-    }
-
-    openDrawer() {
-      this.drawer.openDrawer();
-    }
-
-    closeDrawer() {
-      this.drawer.closeDrawer();
-    }
-
-    searchPressed = () => {
-      ToastAndroid.show('pressed', ToastAndroid.LONG)
-    };
 
   render() {
     return (
-      <Swiper 
-          style={styles.wrapper}
-          showsPagination={false}
-          loop={false}
-          >
-          <DrawerLayoutAndroid
-            drawerWidth={250}
-            ref={(_drawer) => this.drawer = _drawer}
-            drawerPosition={DrawerLayoutAndroid.positions.Left}
-            renderNavigationView={() => this.navigationView()}>
+      <Swiper
+        showsPagination={false}
+        loop={false}>
+        <Drawer
+          ref={(ref) => this._drawer = ref}
+          type="overlay"
+          content={<ControlPanel />}
+          tapToClose={true}
+          openDrawerOffset={0.4} // 20% gap on the right side of drawer
+          panCloseMask={0.2}
+          closedDrawerOffset={-3}
+          tweenHandler={(ratio) => ({
+            main: { opacity:(2-ratio)/2 }
+          })}>
             <View style={styles.container}>
-              <Navigation />
+              <View style={styles.navBarContainer}>
+                  <View style={styles.profileButtonContainer}>
+                    <TouchableOpacity onPress={this.openDrawer}>
+                    <Image
+                      style={styles.button}
+                          source={require('./icons/profile.png')}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.imageContainer}>  
+                    <Image
+                    style={styles.image}
+                    source={require('./images/spiral_white.png')}
+                    resizeMode='contain'
+                  />
+                </View>
+                <View style={styles.extraContainer}>
+                  <TouchableOpacity >
+                    <Image
+                      style={styles.button}
+                          source={require('./icons/subs.png')}
+                      />
+                    </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </DrawerLayoutAndroid>
-          <QRScanner />
+        </Drawer>
+        <QRScanner />
       </Swiper>
     );
   }
@@ -213,12 +112,12 @@ const styles = StyleSheet.create({
   },
   navBarContainer: {
     backgroundColor: '#800080',
-        flexDirection: 'row',
-        //marginBottom: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        justifyContent: 'space-between',
-        paddingTop: 15 
+    flexDirection: 'row',
+    //marginBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    justifyContent: 'space-between',
+    paddingTop: 15 
   },
   imageContainer: {
     flex: 1,

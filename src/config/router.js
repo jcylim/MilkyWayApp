@@ -6,6 +6,7 @@ import Login from '../Login/login';
 import Register from '../SignUp/register';
 import PhoneRegister from '../SignUp/phoneRegister';
 import Explore from '../Main/explore';
+import ControlPanel from '../components/controlPanel'
 import Subscriptions from '../Main/subscriptions';
 import Points from '../Main/points';
 import Activity from '../Main/activity';
@@ -62,9 +63,9 @@ import CodeVerification from '../SignUp/codeVerification';
   tabBarComponent: TabBarTop,
 });*/
 
-const ExploreStack = StackNavigator({
-  Explore: {
-    screen: Explore, 
+const ControlPanelStack = StackNavigator({
+  ControlPanel: {
+    screen: ControlPanel, 
     navigationOptions: {
       header: null
   }},
@@ -97,9 +98,9 @@ const ExploreStack = StackNavigator({
   initialRouteName: 'Explore'
 });
 
-const prevGetStateForActionExploreStack = ExploreStack.router.getStateForAction;
-  ExploreStack.router = {
-    ...ExploreStack.router,
+const prevGetStateForActionControlPanelStack = ControlPanelStack.router.getStateForAction;
+  ControlPanelStack.router = {
+    ...ControlPanelStack.router,
     getStateForAction(action, state) {
       if (state && action.type == 'ReplaceCurrentScreen') {
         const routes = state.routes.slice(0, state.routes.length - 1);
@@ -110,7 +111,59 @@ const prevGetStateForActionExploreStack = ExploreStack.router.getStateForAction;
           index: routes.length - 1,
         };
       }
-      return prevGetStateForActionExploreStack(action, state);
+      return prevGetStateForActionControlPanelStack(action, state);
+    },
+};
+
+const MainStack = StackNavigator({
+  Explore: {
+    screen: ControlPanel, 
+    navigationOptions: {
+      header: null
+  }},
+  Subscriptions: { 
+    screen: Subscriptions, 
+    navigationOptions: {
+      header: null
+    }},
+  Activity: { 
+    screen: Activity, 
+    navigationOptions: {
+      header: null
+    }},
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+    }},
+  Setting: {
+    screen: Setting,
+    navigationOptions: {
+      header: null,
+    }},
+  Points: {
+    screen: Points,
+    navigationOptions: {
+      header: null,
+    }},
+}, {
+  initialRouteName: 'Explore'
+});
+
+const prevGetStateForActionControlPanelStack = ControlPanelStack.router.getStateForAction;
+  ControlPanelStack.router = {
+    ...ControlPanelStack.router,
+    getStateForAction(action, state) {
+      if (state && action.type == 'ReplaceCurrentScreen') {
+        const routes = state.routes.slice(0, state.routes.length - 1);
+        routes.push(action);
+        return {
+          ...state,
+          routes,
+          index: routes.length - 1,
+        };
+      }
+      return prevGetStateForActionControlPanelStack(action, state);
     },
 };
 
@@ -160,4 +213,4 @@ const prevGetStateForActionMilkyWayStack = MilkyWayStack.router.getStateForActio
     },
 };
 
-export default ExploreStack;
+export default ControlPanelStack;
