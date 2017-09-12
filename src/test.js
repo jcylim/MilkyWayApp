@@ -22,10 +22,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import Swiper from 'react-native-swiper'
 import Drawer from 'react-native-drawer'
 
-/*import MWMap from '../components/map'
-import { samples } from '../components/businessInfo';
-import ExploreContent from '../components/exploreContent'
-import Search from '../components/searchButton'*/
+//import MWMap from '../components/map'
+import { samples } from './components/businessInfo';
+import ExploreContent from './components/exploreContent'
+import Search from './components/searchButton'
 import Main from './components/main'
 import ControlPanel from './components/controlPanel'
 import QRScanner from './Main/qrScanner'
@@ -73,16 +73,16 @@ export default class Explore extends Component {
           })}>
             <View style={styles.container}>
               <View style={styles.navBarContainer}>
-                  <View style={styles.profileButtonContainer}>
-                    <TouchableOpacity onPress={this.openDrawer}>
+                <View style={styles.profileButtonContainer}>
+                  <TouchableOpacity onPress={this.openDrawer}>
                     <Image
                       style={styles.button}
-                          source={require('./icons/profile.png')}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.imageContainer}>  
-                    <Image
+                      source={require('./icons/profile.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.imageContainer}>  
+                  <Image
                     style={styles.image}
                     source={require('./images/spiral_white.png')}
                     resizeMode='contain'
@@ -90,11 +90,12 @@ export default class Explore extends Component {
                 </View>
                 <View style={styles.extraContainer}>
                   <TouchableOpacity >
-                    <Image
-                      style={styles.button}
-                          source={require('./icons/subs.png')}
-                      />
-                    </TouchableOpacity>
+                    <Icon  
+                      name='payment'
+                      size={30}
+                      color='white' 
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

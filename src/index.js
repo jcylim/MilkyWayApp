@@ -9,7 +9,6 @@ import MilkyWayStack from './config/router'
 import Explore from './Main/explore';
 import Register from './SignUp/register';
 import PR from './SignUp/phoneRegister';
-import MWMap from './components/map'
 import ExploreContent from './components/exploreContent'
 import Search from './components/searchButton'
 import Test from './test'

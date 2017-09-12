@@ -17,8 +17,14 @@ import {
   Dimensions
    } from 'react-native';
 import { Avatar } from 'react-native-elements'
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions, StackNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+
+import Subscriptions from '../Main/subscriptions';
+import Points from '../Main/points';
+import Activity from '../Main/activity';
+import Profile from '../Main/profile';
+import Setting from '../Main/setting';
 
 export default class ControlPanel extends Component {
 
@@ -53,9 +59,9 @@ export default class ControlPanel extends Component {
     this.props.navigation.dispatch(navAction);
   };
 
-  pointsScreen = () => {
+  subscriptionsScreen = () => {
     const navAction = NavigationActions.navigate({
-      routeName: 'Points'
+      routeName: 'Subscriptions'
       // navigate can have a nested navigate action that will be run inside the child router
       //action: NavigationActions.navigate({ routeName: 'Explore'})
     })
@@ -106,7 +112,7 @@ export default class ControlPanel extends Component {
 		                  		name='loyalty'
 		                  		size={30}
 		                	/>
-		            		<Text style={{color: '#800080', fontSize: 20}}>  Points</Text>
+		            		<Text style={{color: '#800080', fontSize: 20}}>  Subscriptions</Text>
 		          	  	</View>
 		        	</TouchableOpacity>
 		     	</View>
@@ -149,6 +155,29 @@ export default class ControlPanel extends Component {
   }
 }
 
+const ControlPanelStack = StackNavigator({
+  Activity: { 
+    screen: Activity, 
+    navigationOptions: {
+      header: null
+  }},
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+  }},
+  Setting: {
+    screen: Setting,
+    navigationOptions: {
+      header: null,
+  }},
+  Points: {
+    screen: Points,
+    navigationOptions: {
+      header: null,
+  }},
+});
+
 const styles = StyleSheet.create({
   profileContainer: {
     flex: 1,
@@ -190,3 +219,5 @@ const styles = StyleSheet.create({
     height: 50,
   },
 })
+
+//export default ControlPanelStack;

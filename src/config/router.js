@@ -6,13 +6,15 @@ import Login from '../Login/login';
 import Register from '../SignUp/register';
 import PhoneRegister from '../SignUp/phoneRegister';
 import Explore from '../Main/explore';
-import ControlPanel from '../components/controlPanel'
 import Subscriptions from '../Main/subscriptions';
 import Points from '../Main/points';
 import Activity from '../Main/activity';
 import Profile from '../Main/profile';
 import Setting from '../Main/setting';
 import CodeVerification from '../SignUp/codeVerification';
+import NearMeMap from '../Main/nearMeMap';
+import BusinessInfo from '../Main/businessInfoPg';
+import SearchMap from '../Main/searchMap';
 //import BusinessCard from '../SignUp/codeVerification';
 
 /*const MainTabs = TabNavigator({
@@ -63,96 +65,34 @@ import CodeVerification from '../SignUp/codeVerification';
   tabBarComponent: TabBarTop,
 });*/
 
-const ControlPanelStack = StackNavigator({
-  ControlPanel: {
-    screen: ControlPanel, 
-    navigationOptions: {
-      header: null
-  }},
-  Subscriptions: { 
-    screen: Subscriptions, 
-    navigationOptions: {
-      header: null
-    }},
-  Activity: { 
-    screen: Activity, 
-    navigationOptions: {
-      header: null
-    }},
-  Profile: {
-    screen: Profile,
-    navigationOptions: {
-      header: null
-    }},
-  Setting: {
-    screen: Setting,
-    navigationOptions: {
-      header: null,
-    }},
-  Points: {
-    screen: Points,
-    navigationOptions: {
-      header: null,
-    }},
-}, {
-  initialRouteName: 'Explore'
-});
-
-const prevGetStateForActionControlPanelStack = ControlPanelStack.router.getStateForAction;
-  ControlPanelStack.router = {
-    ...ControlPanelStack.router,
-    getStateForAction(action, state) {
-      if (state && action.type == 'ReplaceCurrentScreen') {
-        const routes = state.routes.slice(0, state.routes.length - 1);
-        routes.push(action);
-        return {
-          ...state,
-          routes,
-          index: routes.length - 1,
-        };
-      }
-      return prevGetStateForActionControlPanelStack(action, state);
-    },
-};
-
-const MainStack = StackNavigator({
+const ExploreStack = StackNavigator({
   Explore: {
-    screen: ControlPanel, 
+    screen: Explore, 
     navigationOptions: {
       header: null
   }},
-  Subscriptions: { 
-    screen: Subscriptions, 
+  NearMeMap: { 
+    screen: NearMeMap, 
     navigationOptions: {
       header: null
-    }},
-  Activity: { 
+  }},
+  SearchMap: { 
     screen: Activity, 
     navigationOptions: {
       header: null
-    }},
-  Profile: {
-    screen: Profile,
+  }},
+  BusinessInfo: {
+    screen: BusinessInfo,
     navigationOptions: {
       header: null
-    }},
-  Setting: {
-    screen: Setting,
-    navigationOptions: {
-      header: null,
-    }},
-  Points: {
-    screen: Points,
-    navigationOptions: {
-      header: null,
-    }},
-}, {
+  }},
+  }, {
   initialRouteName: 'Explore'
 });
 
-const prevGetStateForActionControlPanelStack = ControlPanelStack.router.getStateForAction;
-  ControlPanelStack.router = {
-    ...ControlPanelStack.router,
+const prevGetStateForActionExploreStack = ExploreStack.router.getStateForAction;
+  ExploreStack.router = {
+    ...ExploreStack.router,
     getStateForAction(action, state) {
       if (state && action.type == 'ReplaceCurrentScreen') {
         const routes = state.routes.slice(0, state.routes.length - 1);
@@ -163,7 +103,7 @@ const prevGetStateForActionControlPanelStack = ControlPanelStack.router.getState
           index: routes.length - 1,
         };
       }
-      return prevGetStateForActionControlPanelStack(action, state);
+      return prevGetStateForActionExploreStack(action, state);
     },
 };
 
@@ -213,4 +153,4 @@ const prevGetStateForActionMilkyWayStack = MilkyWayStack.router.getStateForActio
     },
 };
 
-export default ControlPanelStack;
+export default ExploreStack;

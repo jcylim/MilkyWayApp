@@ -14,8 +14,7 @@ export default class Search extends Component {
       <ActionButton 
         buttonColor="rgba(128,0,128, 0.9)" 
         icon={<Icon name="md-search" style={styles.actionButtonIcon} />}
-        onPress={this.searchPressed}
-        >
+        onPress={this.searchPressed}>
       </ActionButton>
     );
   }
