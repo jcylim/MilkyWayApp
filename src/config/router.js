@@ -86,6 +86,26 @@ const ExploreStack = StackNavigator({
     navigationOptions: {
       header: null
   }},
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: null
+  }},
+  Activity: {
+    screen: Activity,
+    navigationOptions: {
+      header: null
+  }},
+  Subscriptions: {
+    screen: Subscriptions,
+    navigationOptions: {
+      header: null
+  }},
+  Setting: {
+    screen: Setting,
+    navigationOptions: {
+      header: null
+  }},
   }, {
   initialRouteName: 'Explore'
 });

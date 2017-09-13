@@ -42,7 +42,14 @@ export default class Explore extends Component {
 
 	constructor() {
 		super();
+		this.businessPressed = this.businessPressed.bind(this);
+		this.searchPressed = this.searchPressed.bind(this);
+		this.nearMePressed = this.nearMePressed.bind(this);
 	}
+
+	openDrawer = () => {
+    	this._drawer.open()
+  	};
 
 	businessPressed = () => {
 	    const navAction = NavigationActions.navigate({
@@ -62,7 +69,7 @@ export default class Explore extends Component {
 	    this.props.navigation.dispatch(navAction);
     };
 
-    nearmePressed = () => {
+    nearMePressed = () => {
       	const navAction = NavigationActions.navigate({
 	      routeName: 'NearMeMap',
 	      // navigate can have a nested navigate action that will be run inside the child router
@@ -98,18 +105,18 @@ export default class Explore extends Component {
 		                  </TouchableOpacity>
 		                </View>
 		                <View style={styles.imageContainer}>  
-		                  <Image
-		                    style={styles.image}
-		                    source={require('../images/spiral_white.png')}
-		                    resizeMode='contain'
-		                  />
+		                  	<Image
+		                    	style={styles.image}
+		                    	source={require('../images/spiral_white.png')}
+		                    	resizeMode='contain'
+		                  	/>
 		                </View>
 		                <View style={styles.extraContainer}>
 		                  <TouchableOpacity >
 		                    <Icon  
-		                      name='payment'
-		                      size={30}
-		                      color='white' 
+		                      	name='payment'
+		                      	size={30}
+		                      	color='white' 
 		                    />
 		                  </TouchableOpacity>
 		                </View>

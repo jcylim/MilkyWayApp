@@ -28,8 +28,13 @@ import Setting from '../Main/setting';
 
 export default class ControlPanel extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.signOut = this.signOut.bind(this);
+    this.profileScreen = this.profileScreen.bind(this);
+    this.activityScreen = this.activityScreen.bind(this);
+    this.subscriptionsScreen = this.subscriptionsScreen.bind(this);
+    this.settingScreen = this.settingScreen.bind(this);
   }
 
   signOut = () => {
@@ -38,14 +43,19 @@ export default class ControlPanel extends Component {
       // navigate can have a nested navigate action that will be run inside the child router
       //action: NavigationActions.navigate({ routeName: 'Explore'})
     })
-    //this.props.navigation.dispatch(navAction);
+    this.props.navigation.dispatch(navAction);
   };
 
   profileScreen = () => {
     const navAction = NavigationActions.navigate({
+      type: 'Navigate/NAVIGATE',
       routeName: 'Profile',
       // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
+      action: {
+        //NavigationActions.navigate({ routeName: 'Explore'})
+        type: 'Navigate/NAVIGATE',
+        routeName: 'Profile'
+      }
     })
     this.props.navigation.dispatch(navAction);
   };
@@ -154,29 +164,6 @@ export default class ControlPanel extends Component {
 	);
   }
 }
-
-const ControlPanelStack = StackNavigator({
-  Activity: { 
-    screen: Activity, 
-    navigationOptions: {
-      header: null
-  }},
-  Profile: {
-    screen: Profile,
-    navigationOptions: {
-      header: null
-  }},
-  Setting: {
-    screen: Setting,
-    navigationOptions: {
-      header: null,
-  }},
-  Points: {
-    screen: Points,
-    navigationOptions: {
-      header: null,
-  }},
-});
 
 const styles = StyleSheet.create({
   profileContainer: {
