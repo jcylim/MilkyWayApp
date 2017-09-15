@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, ScrollView, Text, StatusBar, TouchableOpacity, Platform } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { sliderWidth, itemWidth } from './testSliderStyle';
@@ -18,16 +18,26 @@ export default class ExploreContent extends Component {
             slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
             slider1Ref: null
         };
+        this.nearMePressed = this.nearMePressed.bind(this);
     }
 
-    _renderItem ({item, index}) {
+ /*   _renderItem ({item, index}) {
         return (
             <SliderEntry
               data={item}
               even={(index + 1) % 2 === 0}
             />
         );
-    }
+    }*/
+
+    nearMePressed = () => {
+        const navAction = NavigationActions.navigate({
+        routeName: 'NearMeMap',
+        // navigate can have a nested navigate action that will be run inside the child router
+        //action: NavigationActions.navigate({ routeName: 'Explore'})
+      })
+      this.props.navigation.dispatch(navAction);
+    };
 
     _renderItemWithParallax ({item, index}, parallaxProps) {
         return (
@@ -36,6 +46,7 @@ export default class ExploreContent extends Component {
               even={(index + 1) % 2 === 0}
               parallax={true}
               parallaxProps={parallaxProps}
+              onPress={this.nearMePressed}
             />
         );
     }
@@ -92,6 +103,7 @@ export default class ExploreContent extends Component {
       			              //featured
       			              //height={180}
       			              contentContainerStyle={{height: 70}}
+                          onPress={this.props.onBusinessPressed}
       			            >
       			              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
       			                <Text style={{fontSize: 12}}>Business Address</Text>
@@ -106,4 +118,8 @@ export default class ExploreContent extends Component {
             </View>
         );
     }
+}
+
+ExploreContent.propTypes = {
+  onBusinessPressed: PropTypes.func 
 }

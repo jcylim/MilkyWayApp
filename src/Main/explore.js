@@ -44,7 +44,6 @@ export default class Explore extends Component {
 		super();
 		this.businessPressed = this.businessPressed.bind(this);
 		this.searchPressed = this.searchPressed.bind(this);
-		this.nearMePressed = this.nearMePressed.bind(this);
 	}
 
 	openDrawer = () => {
@@ -63,15 +62,6 @@ export default class Explore extends Component {
   	searchPressed = () => {
       	const navAction = NavigationActions.navigate({
 	      routeName: 'SearchMap',
-	      // navigate can have a nested navigate action that will be run inside the child router
-	      //action: NavigationActions.navigate({ routeName: 'Explore'})
-	    })
-	    this.props.navigation.dispatch(navAction);
-    };
-
-    nearMePressed = () => {
-      	const navAction = NavigationActions.navigate({
-	      routeName: 'NearMeMap',
 	      // navigate can have a nested navigate action that will be run inside the child router
 	      //action: NavigationActions.navigate({ routeName: 'Explore'})
 	    })
@@ -121,8 +111,13 @@ export default class Explore extends Component {
 		                  </TouchableOpacity>
 		                </View>
 	              	</View>
-		            <ExploreContent />
-		            <Search />
+		            <ExploreContent 
+		            	onNearMePressed={this.nearMePressed}
+		            	onBusinessPressed={this.businessPressed}
+		            />
+		            <Search 
+		            	onPress={this.searchPressed}
+		            />
 	            </View>
 	        </Drawer>
 	        <QRScanner />

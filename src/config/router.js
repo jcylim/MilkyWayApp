@@ -77,7 +77,7 @@ const ExploreStack = StackNavigator({
       header: null
   }},
   SearchMap: { 
-    screen: Activity, 
+    screen: SearchMap, 
     navigationOptions: {
       header: null
   }},

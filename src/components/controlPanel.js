@@ -51,11 +51,11 @@ export default class ControlPanel extends Component {
       type: 'Navigate/NAVIGATE',
       routeName: 'Profile',
       // navigate can have a nested navigate action that will be run inside the child router
-      action: {
+      /*action: {
         //NavigationActions.navigate({ routeName: 'Explore'})
         type: 'Navigate/NAVIGATE',
         routeName: 'Profile'
-      }
+      }*/
     })
     this.props.navigation.dispatch(navAction);
   };
