@@ -44,11 +44,74 @@ export default class Explore extends Component {
 		super();
 		this.businessPressed = this.businessPressed.bind(this);
 		this.searchPressed = this.searchPressed.bind(this);
+		this.signOut = this.signOut.bind(this);
+		this.profileScreen = this.profileScreen.bind(this);
+		this.subscriptionsScreen = this.subscriptionsScreen.bind(this);
+		this.activityScreen = this.activityScreen.bind(this);
+		this.settingScreen = this.settingScreen.bind(this);
 	}
 
 	openDrawer = () => {
     	this._drawer.open()
   	};
+
+  	signOut = () => {
+	    const navAction = NavigationActions.navigate({
+	      routeName: 'Login',
+	      // navigate can have a nested navigate action that will be run inside the child router
+	      //action: NavigationActions.navigate({ routeName: 'Explore'})
+	    })
+	    this.props.navigation.dispatch(navAction);
+	};
+
+	profileScreen = () => {
+	    const navAction = NavigationActions.navigate({
+	      	routeName: 'Profile',
+	      	// navigate can have a nested navigate action that will be run inside the child router
+	      	/*action: {
+	        	//NavigationActions.navigate({ routeName: 'Explore'})
+	        	type: 'Navigate/NAVIGATE',
+	        	routeName: 'Profile'
+	      	}*/
+	    })
+	    this.props.navigation.dispatch(navAction);
+	};
+
+	activityScreen = () => {
+	    const navAction = NavigationActions.navigate({
+	    	routeName: 'Activity',
+	      	// navigate can have a nested navigate action that will be run inside the child router
+	      	//action: NavigationActions.navigate({ routeName: 'Explore'})
+	    })
+	   	this.props.navigation.dispatch(navAction);
+	};
+
+	subscriptionsScreen = () => {
+	    const navAction = NavigationActions.navigate({
+	    	routeName: 'Subscriptions'
+	      	// navigate can have a nested navigate action that will be run inside the child router
+	      	//action: NavigationActions.navigate({ routeName: 'Explore'})
+	    })
+	    this.props.navigation.dispatch(navAction);
+	};
+
+	settingScreen = () => {
+	    const navAction = NavigationActions.navigate({
+	    	routeName: 'Setting',
+	      	// navigate can have a nested navigate action that will be run inside the child router
+	      	//action: NavigationActions.navigate({ routeName: 'Explore'})
+	    })
+	    this.props.navigation.dispatch(navAction);
+	};
+
+	nearMePressed = () => {
+	    const navAction = NavigationActions.navigate({
+	      routeName: 'NearMeMap',
+	      // navigate can have a nested navigate action that will be run inside the child router
+	      //action: NavigationActions.navigate({ routeName: 'Explore'})
+	    })
+	    this.props.navigation.dispatch(navAction);
+	};
 
 	businessPressed = () => {
 	    const navAction = NavigationActions.navigate({
@@ -76,7 +139,13 @@ export default class Explore extends Component {
 	        <Drawer
 	          ref={(ref) => this._drawer = ref}
 	          type="overlay"
-	          content={<ControlPanel />}
+	          content={<ControlPanel 
+	          	onProfilePressed={this.profileScreen}
+				onSubscriptionsPressed={this.subscriptionsScreen}
+				onActivityPressed={this.activityScreen}
+				onSettingPressed={this.settingScreen}
+				onSignOutPressed={this.signOut}
+	          />}
 	          tapToClose={true}
 	          openDrawerOffset={0.4} // 20% gap on the right side of drawer
 	          panCloseMask={0.2}
@@ -102,7 +171,7 @@ export default class Explore extends Component {
 		                  	/>
 		                </View>
 		                <View style={styles.extraContainer}>
-		                  <TouchableOpacity >
+		                  <TouchableOpacity>
 		                    <Icon  
 		                      	name='payment'
 		                      	size={30}
@@ -112,7 +181,6 @@ export default class Explore extends Component {
 		                </View>
 	              	</View>
 		            <ExploreContent 
-		            	onNearMePressed={this.nearMePressed}
 		            	onBusinessPressed={this.businessPressed}
 		            />
 		            <Search 

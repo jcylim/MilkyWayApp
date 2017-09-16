@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { 
   View, 
   Text, 
@@ -30,62 +30,7 @@ export default class ControlPanel extends Component {
 
   constructor(props) {
     super(props);
-    this.signOut = this.signOut.bind(this);
-    this.profileScreen = this.profileScreen.bind(this);
-    this.activityScreen = this.activityScreen.bind(this);
-    this.subscriptionsScreen = this.subscriptionsScreen.bind(this);
-    this.settingScreen = this.settingScreen.bind(this);
   }
-
-  signOut = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Login',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-  profileScreen = () => {
-    const navAction = NavigationActions.navigate({
-      type: 'Navigate/NAVIGATE',
-      routeName: 'Profile',
-      // navigate can have a nested navigate action that will be run inside the child router
-      /*action: {
-        //NavigationActions.navigate({ routeName: 'Explore'})
-        type: 'Navigate/NAVIGATE',
-        routeName: 'Profile'
-      }*/
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-  activityScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Activity',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-  subscriptionsScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Subscriptions'
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
-
-  settingScreen = () => {
-    const navAction = NavigationActions.navigate({
-      routeName: 'Setting',
-      // navigate can have a nested navigate action that will be run inside the child router
-      //action: NavigationActions.navigate({ routeName: 'Explore'})
-    })
-    this.props.navigation.dispatch(navAction);
-  };
 
   render() {
     return(
@@ -103,7 +48,7 @@ export default class ControlPanel extends Component {
 	          	<View style={styles.navTabContainer}>
 	            	<TouchableOpacity 
 	              		style={{width: 250, height: 30, paddingHorizontal: 10}}
-		            	onPress={this.profileScreen}>
+		            	onPress={this.props.onProfilePressed}>
 		            	<View style={{flexDirection: 'row'}}>
 		              		<Icon  
 		                  		name='account-box'
@@ -116,7 +61,7 @@ export default class ControlPanel extends Component {
 		      	<View style={styles.navTabContainer}>
 		            <TouchableOpacity 
 		              style={{width: 250, height: 30, paddingHorizontal: 10}}
-		              onPress={this.pointsScreen}>
+		              onPress={this.props.onSubscriptionsPressed}>
 		              	<View style={{flexDirection: 'row'}}>
 		                	<Icon  
 		                  		name='loyalty'
@@ -129,7 +74,7 @@ export default class ControlPanel extends Component {
 			    <View style={styles.navTabContainer}>
 		            <TouchableOpacity 
 		              style={{width: 250, height: 30, paddingHorizontal: 10}}
-		              onPress={this.activityScreen}>
+		              onPress={this.props.onActivityPressed}>
 		              	<View style={{flexDirection: 'row'}}>
 		                	<Icon  
 		                  		name='assessment'
@@ -142,13 +87,13 @@ export default class ControlPanel extends Component {
 			    <View style={styles.navTabContainer}>
 		            <TouchableOpacity 
 		              style={{width: 250, height: 30, paddingHorizontal: 10}}
-		              onPress={this.settingScreen}>
+		              onPress={this.props.onSettingPressed}>
 		              	<View style={{flexDirection: 'row'}}>
 		                	<Icon  
 		                  		name='settings'
 		                  		size={30}
 		                	/>
-		            		<Text style={{color: '#800080', fontSize: 20}}>  Points</Text>
+		            		<Text style={{color: '#800080', fontSize: 20}}>  Setting</Text>
 		          	  	</View>
 		        	</TouchableOpacity>
 		     	</View>
@@ -156,7 +101,7 @@ export default class ControlPanel extends Component {
 			<View style={styles.logoutContainer}>
 		        <TouchableOpacity 
 		            style={styles.logout}
-		            onPress={this.signOut}>
+		            onPress={this.props.onSignOutPressed}>
 		        	<Text style={styles.logoutButton}>Sign Out</Text>
 		      	</TouchableOpacity>
 		    </View>
@@ -164,6 +109,14 @@ export default class ControlPanel extends Component {
 	);
   }
 }
+
+ControlPanel.propTypes = {
+	onProfilePressed: PropTypes.func,
+	onSubscriptionsPressed: PropTypes.func,
+	onActivityPressed: PropTypes.func,
+	onSettingPressed: PropTypes.func,
+	onSignOutPressed: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
   profileContainer: {

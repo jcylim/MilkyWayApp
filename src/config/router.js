@@ -1,6 +1,6 @@
 import React from 'react';
 import { TabNavigator, StackNavigator, TabBarTop, TabBarBottom } from 'react-navigation';
-import { Image } from 'react-native';
+import { Image, Text } from 'react-native';
 
 import Login from '../Login/login';
 import Register from '../SignUp/register';
@@ -89,7 +89,7 @@ const ExploreStack = StackNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
-      header: null
+      title: 'Profile'
   }},
   Activity: {
     screen: Activity,

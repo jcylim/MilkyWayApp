@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { ParallaxImage } from 'react-native-snap-carousel';
 import styles from './testSliderStyle';
 
@@ -34,6 +34,10 @@ export default class SliderEntry extends Component {
         );
     }
 
+    test = () => {
+      ToastAndroid.show('yeee', ToastAndroid.LONG);
+    };
+
     render () {
         const { data: { title, subtitle }, even } = this.props;
 
@@ -51,7 +55,7 @@ export default class SliderEntry extends Component {
             <TouchableOpacity
               activeOpacity={1}
               style={styles.slideInnerContainer}
-              onPress={this.props.onPress}
+              onPress={this.onPress}
               >
                 <View style={styles.imageContainer}>
                     { this.image }

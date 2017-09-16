@@ -3,52 +3,66 @@ import {
   StyleSheet,
   Text,
   View,
+  ToastAndroid,
+  ListView,
+  TouchableOpacity
 } from 'react-native'
+import { SearchBar } from 'react-native-elements'
 
-import Drawer from 'react-native-drawer'
-import Swiper from 'react-native-swiper'
+import { samples } from './components/businessInfo'
 
-import ControlPanel from './components/controlPanel'
-import Main from './components/main'
-import QRScanner from './Main/qrScanner'
+const ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 != row2}); 
 
 export default class App extends Component {
 
-  state={
-    drawerOpen: false,
-    drawerDisabled: false,
+  constructor() {
+    super();
+    this.state = {
+      dataSource: ds.cloneWithRows(samples),
+    }
+  }
+
+  componentDidMount() {
+    this.search.focus();
+  }
+
+  test = () => {
+    ToastAndroid.show('business selected', ToastAndroid.LONG);
   };
 
-  closeDrawer = () => {
-    this._drawer.close()
+  someMethod = () => {
+    ToastAndroid.show('yuhh', ToastAndroid.LONG);
   };
 
-  openDrawer = () => {
-    this._drawer.open()
-  };
+  _renderRow(rowData) {
+    return(
+      <View style={{paddingHorizontal: 30}}>
+        <TouchableOpacity 
+          style={{paddingVertical: 10}} 
+          onPress={this.test}>
+            <Text style={{fontSize: 18}}>{rowData.latitude}</Text>
+        </TouchableOpacity>
+      </View>
+    ); 
+  }
 
   render() {
     return (
-      <Swiper
-        showsPagination={false}
-        loop={false}
-      >
-        <Drawer
-          type="overlay"
-          content={<ControlPanel />}
-          tapToClose={true}
-          openDrawerOffset={0.4} // 20% gap on the right side of drawer
-          panCloseMask={0.2}
-          closedDrawerOffset={-3}
-          styles={drawerStyles}
-          tweenHandler={(ratio) => ({
-            main: { opacity:(2-ratio)/2 }
-          })}
-          >
-            <Main />
-        </Drawer>
-        <QRScanner />
-      </Swiper>
+      <View>
+        <SearchBar
+          ref={search => this.search = search}
+          lightTheme
+          round
+          //showLoadingIcon={true}
+          icon={{color: '#800080'}}
+          onChangeText={this.someMethod}
+          placeholderTextColor='white'
+          placeholder='Look up a business here...' />
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+        />
+      </View>
     );
   }
 }
