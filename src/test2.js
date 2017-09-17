@@ -19,7 +19,8 @@ export default class App extends Component {
     super();
     this.state = {
       dataSource: ds.cloneWithRows(samples),
-    }
+      textInputted: false
+    };
   }
 
   componentDidMount() {
@@ -31,19 +32,26 @@ export default class App extends Component {
   };
 
   someMethod = () => {
+    this.setState({
+        textInputted: !this.state.textInputted
+    });
     ToastAndroid.show('yuhh', ToastAndroid.LONG);
   };
 
   _renderRow(rowData) {
-    return(
-      <View style={{paddingHorizontal: 30}}>
-        <TouchableOpacity 
-          style={{paddingVertical: 10}} 
-          onPress={this.test}>
-            <Text style={{fontSize: 18}}>{rowData.latitude}</Text>
-        </TouchableOpacity>
-      </View>
-    ); 
+    if (this.state.textInputted) {
+        return (
+            <View style={{paddingHorizontal: 30}}>
+              <TouchableOpacity 
+                style={{paddingVertical: 10}} 
+                onPress={this.test}>
+                  <Text style={{fontSize: 18}}>{rowData.latitude}</Text>
+              </TouchableOpacity>
+            </View>
+        );
+    } else {
+        return null;
+    }
   }
 
   render() {
@@ -60,7 +68,7 @@ export default class App extends Component {
           placeholder='Look up a business here...' />
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this._renderRow}
+          renderRow={this._renderRow.bind(this)}
         />
       </View>
     );
