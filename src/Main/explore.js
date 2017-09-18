@@ -22,11 +22,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import Swiper from 'react-native-swiper'
 import Drawer from 'react-native-drawer'
 
+import stylez, { colors } from '../components/testStyle';
 import { samples } from '../components/businessInfo';
 import ExploreContent from '../components/exploreContent'
 import Search from '../components/searchButton'
 import QRScanner from './qrScanner'
 import ControlPanel from '../components/controlPanel'
+import NearMeCards from '../components/nearMeCards'
 
 let listener = null
 
@@ -44,6 +46,7 @@ export default class Explore extends Component {
 		super();
 		this.businessPressed = this.businessPressed.bind(this);
 		this.searchPressed = this.searchPressed.bind(this);
+		this.nearMePressed = this.nearMePressed.bind(this);
 		this.signOut = this.signOut.bind(this);
 		this.profileScreen = this.profileScreen.bind(this);
 		this.subscriptionsScreen = this.subscriptionsScreen.bind(this);
@@ -131,6 +134,15 @@ export default class Explore extends Component {
 	    this.props.navigation.dispatch(navAction);
     };
 
+    nearMePressed = () => {
+        const navAction = NavigationActions.navigate({
+          routeName: 'NearMeMap',
+          // navigate can have a nested navigate action that will be run inside the child router
+          //action: NavigationActions.navigate({ routeName: 'Explore'})
+      	})
+      	this.props.navigation.dispatch(navAction);
+    };
+
 	render() {
 	    return (
 	      <Swiper
@@ -180,9 +192,17 @@ export default class Explore extends Component {
 		                  </TouchableOpacity>
 		                </View>
 	              	</View>
-		            <ExploreContent 
-		            	onBusinessPressed={this.businessPressed}
-		            />
+	              	<ScrollView
+	                  style={stylez.scrollview}
+	                  contentContainerStyle={stylez.scrollviewContentContainer}
+	                  indicatorStyle={'white'}
+	                  //scrollEventThrottle={200}
+	                  directionalLockEnabled={true}>
+			            <NearMeCards 
+			            	onNearMePressed={this.nearMePressed}/>
+	                    <ExploreContent 
+			            	onBusinessPressed={this.businessPressed}/>
+	                </ScrollView>
 		            <Search 
 		            	onPress={this.searchPressed}
 		            />

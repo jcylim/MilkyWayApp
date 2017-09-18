@@ -13,11 +13,12 @@ import ExploreContent from './components/exploreContent'
 import Search from './components/searchButton'
 import Test from './test'
 import Test2 from './test2'
+import State from './state'
 
 export default class MilkyWayApp extends Component {
   render() {
     return (
-      <Test2 />
+      <MilkyWayStack />
     );
   }
 }
