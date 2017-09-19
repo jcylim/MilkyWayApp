@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import MilkyWayStack from './config/router'
 import Explore from './Main/explore';
+import NearMeMap from './Main/nearMeMap';
 import Register from './SignUp/register';
 import PR from './SignUp/phoneRegister';
 import ExploreContent from './components/exploreContent'
@@ -18,7 +19,7 @@ import State from './state'
 export default class MilkyWayApp extends Component {
   render() {
     return (
-      <MilkyWayStack />
+      <Test />
     );
   }
 }

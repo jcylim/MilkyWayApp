@@ -47,7 +47,7 @@ export default class NearMeMap extends Component {
       this.setState({markerPosition: initialRegion})
     }, 
       (error) => alert(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maxiumAge: 1000})
+      {enableHighAccuracy: true, timeout: 20000, maxiumAge: 10000})
 
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lat = parseFloat(position.coords.latitude)
@@ -77,8 +77,7 @@ export default class NearMeMap extends Component {
         <MapView
           style={styles.map}
           region={ this.state.initialPosition }
-          showsMyLocationButton
-        >
+          showsMyLocationButton>
           {samples.map((location, i) => {
             return (
               <MapView.Marker
@@ -90,8 +89,7 @@ export default class NearMeMap extends Component {
               >
                 <MapView.Callout
                   style={styles.calloutContainer}
-                  tooltip
-                >
+                  tooltip>
                   <MapCallout
                     title={'Business Name'}
                     description={'Number of Points'}
@@ -104,17 +102,6 @@ export default class NearMeMap extends Component {
             coordinate={ this.state.markerPosition }
           />
         </MapView>
-        <View style={styles.searchContainer}>
-          <TouchableOpacity
-            onPress={this.searchPressed}
-          >
-            <Icon
-              name='search'
-              size={50}
-              color='#800080'
-            />
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }

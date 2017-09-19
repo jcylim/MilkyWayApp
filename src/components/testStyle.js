@@ -17,7 +17,7 @@ export default StyleSheet.create({
     },
     scrollview: {
         flex: 1,
-        paddingTop: 15
+        //paddingTop: 5
     },
     scrollviewContentContainer: {
         //paddingBottom: 50
@@ -32,6 +32,7 @@ export default StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
+        paddingTop: 5
     },
     subtitle: {
         marginTop: 5,

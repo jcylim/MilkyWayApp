@@ -31,6 +31,7 @@ export default class App extends Component {
     ToastAndroid.show(this.state.text, ToastAndroid.LONG);
   };
 
+  
   renderView(text) {
     return(
       <View>

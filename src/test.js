@@ -1,195 +1,252 @@
-import React, { Component } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TextInput, 
-  ToastAndroid, 
-  DrawerLayoutAndroid, 
-  TouchableOpacity,
-  TouchableHighlight, 
-  BackHandler, 
-  Platform, 
-  StatusBar, 
-  Image,
-  ListView,
+import React, { Component } from "react";
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
   ScrollView,
-  Dimensions
-   } from 'react-native';
-import { NavigationActions } from 'react-navigation'
-import { Card, ListItem, Button, Tile, Avatar} from 'react-native-elements'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import Swiper from 'react-native-swiper'
-import Drawer from 'react-native-drawer'
+  Animated,
+  Image,
+  Dimensions,
+} from "react-native";
 
-//import MWMap from '../components/map'
-import { samples } from './components/businessInfo';
-import ExploreContent from './components/exploreContent'
-import Search from './components/searchButton'
-import Main from './components/main'
-import ControlPanel from './components/controlPanel'
-import QRScanner from './Main/qrScanner'
+import MapView from "react-native-maps";
 
-let listener = null
+const Images = [
+  { uri: "https://i.imgur.com/sNam9iJ.jpg" },
+  { uri: "https://i.imgur.com/N7rlQYt.jpg" },
+  { uri: "https://i.imgur.com/UDrH0wm.jpg" },
+  { uri: "https://i.imgur.com/Ka8kNST.jpg" }
+]
 
-export default class Explore extends Component {
+const { width, height } = Dimensions.get("window");
 
-  componentDidMount() {
-      if (Platform.OS == "android" && listener == null) {
-        listener = BackHandler.addEventListener("hardwareBackPress", () => {
-          BackHandler.exitApp();
-        })
-      }
-    }
+const CARD_HEIGHT = height / 3;
+const CARD_WIDTH = CARD_HEIGHT + 50;
 
-  constructor() {
-    super();
-    //this.openDrawer = this.openDrawer.bind(this);
+export default class Test extends Component {
+
+  state = {
+    markers: [
+      {
+        coordinate: {
+          latitude: 45.524548,
+          longitude: -122.6749817,
+        },
+        title: "Best Place",
+        description: "This is the best place in Portland",
+        image: Images[0],
+      },
+      {
+        coordinate: {
+          latitude: 45.524698,
+          longitude: -122.6655507,
+        },
+        title: "Second Best Place",
+        description: "This is the second best place in Portland",
+        image: Images[1],
+      },
+      {
+        coordinate: {
+          latitude: 45.5230786,
+          longitude: -122.6701034,
+        },
+        title: "Third Best Place",
+        description: "This is the third best place in Portland",
+        image: Images[2],
+      },
+      {
+        coordinate: {
+          latitude: 45.521016,
+          longitude: -122.6561917,
+        },
+        title: "Fourth Best Place",
+        description: "This is the fourth best place in Portland",
+        image: Images[3],
+      },
+    ],
+    region: {
+      latitude: 45.52220671242907,
+      longitude: -122.6653281029795,
+      latitudeDelta: 0.04864195044303443,
+      longitudeDelta: 0.040142817690068,
+    },
+  };
+
+  componentWillMount() {
+    this.index = 0;
+    this.animation = new Animated.Value(0);
   }
 
-  openDrawer = () => {
-    this._drawer.open()
-  };
+  componentDidMount() {
+    // We should detect when scrolling has stopped then animate
+    // We should just debounce the event listener here
+    this.animation.addListener(({ value }) => {
+      let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
+      if (index >= this.state.markers.length) {
+        index = this.state.markers.length - 1;
+      }
+      if (index <= 0) {
+        index = 0;
+      }
 
-  searchPressed = () => {
-    ToastAndroid.show('pressed', ToastAndroid.LONG)
-  };
+      clearTimeout(this.regionTimeout);
+      this.regionTimeout = setTimeout(() => {
+        if (this.index !== index) {
+          this.index = index;
+          const { coordinate } = this.state.markers[index];
+          this.map.animateToRegion(
+            {
+              ...coordinate,
+              latitudeDelta: this.state.region.latitudeDelta,
+              longitudeDelta: this.state.region.longitudeDelta,
+            },
+            350
+          );
+        }
+      }, 10);
+    });
+  }
 
   render() {
+    const interpolations = this.state.markers.map((marker, index) => {
+      const inputRange = [
+        (index - 2) * CARD_WIDTH,
+        index * CARD_WIDTH,
+        ((index + 1) * CARD_WIDTH),
+      ];
+      const scale = this.animation.interpolate({
+        inputRange,
+        outputRange: [1, 2.5, 1],
+        extrapolate: "clamp",
+      });
+      const opacity = this.animation.interpolate({
+        inputRange,
+        outputRange: [0.35, 1, 0.35],
+        extrapolate: "clamp",
+      });
+      return { scale, opacity };
+    });
+
     return (
-      <Swiper
-        showsPagination={false}
-        loop={false}>
-        <Drawer
-          ref={(ref) => this._drawer = ref}
-          type="overlay"
-          content={<ControlPanel />}
-          tapToClose={true}
-          openDrawerOffset={0.4} // 20% gap on the right side of drawer
-          panCloseMask={0.2}
-          closedDrawerOffset={-3}
-          tweenHandler={(ratio) => ({
-            main: { opacity:(2-ratio)/2 }
-          })}>
-            <View style={styles.container}>
-              <View style={styles.navBarContainer}>
-                <View style={styles.profileButtonContainer}>
-                  <TouchableOpacity onPress={this.openDrawer}>
-                    <Image
-                      style={styles.button}
-                      source={require('./icons/profile.png')}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.imageContainer}>  
-                  <Image
-                    style={styles.image}
-                    source={require('./images/spiral_white.png')}
-                    resizeMode='contain'
-                  />
-                </View>
-                <View style={styles.extraContainer}>
-                  <TouchableOpacity >
-                    <Icon  
-                      name='payment'
-                      size={30}
-                      color='white' 
-                    />
-                  </TouchableOpacity>
+      <View style={styles.container}>
+        <MapView
+          ref={map => this.map = map}
+          initialRegion={this.state.region}
+          style={styles.container}>
+            {this.state.markers.map((marker, index) => {
+              return (
+                <MapView.Marker 
+                  key={index} 
+                  pinColor={"rgba(130,4,150, 0.9)"}
+                  coordinate={marker.coordinate}/>
+              );
+            })}
+        </MapView>
+        <Animated.ScrollView
+          horizontal
+          scrollEventThrottle={1}
+          alwaysBounceHorizontal={true}
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={CARD_WIDTH}
+          snapToAlignment={'end'}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    x: this.animation,
+                  },
+                },
+              },
+            ],
+            { useNativeDriver: true }
+          )}
+          style={styles.scrollView}
+          contentContainerStyle={styles.endPadding}>
+            {this.state.markers.map((marker, index) => (
+              <View style={styles.card} key={index}>
+                <Image
+                  source={marker.image}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
+                  <Text numberOfLines={1} style={styles.cardDescription}>
+                    {marker.description}
+                  </Text>
                 </View>
               </View>
-            </View>
-        </Drawer>
-        <QRScanner />
-      </Swiper>
+            ))}
+        </Animated.ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
   },
-  navBarContainer: {
-    backgroundColor: '#800080',
-    flexDirection: 'row',
-    //marginBottom: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    justifyContent: 'space-between',
-    paddingTop: 15 
+  scrollView: {
+    position: "absolute",
+    bottom: 30,
+    left: 0,
+    right: 0,
+    paddingVertical: 10,
   },
-  imageContainer: {
+  endPadding: {
+    paddingRight: width - (CARD_WIDTH + 60),
+  },
+  card: {
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "#FFF",
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowOffset: { x: 2, y: -2 },
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    overflow: "hidden",
+  },
+  cardImage: {
+    flex: 3,
+    width: "100%",
+    height: "100%",
+    alignSelf: "center",
+  },
+  textContent: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
-  profileButtonContainer: {
-    flex: 1,
-    justifyContent: 'center'
+  cardtitle: {
+    fontSize: 12,
+    marginTop: 5,
+    fontWeight: "bold",
   },
-  cardsContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
+  cardDescription: {
+    fontSize: 12,
+    color: "#444",
   },
-  button: {
-    width: 30,
-    height: 30
+  markerWrap: {
+    alignItems: "center",
+    justifyContent: "center",
   },
-  image: {
-    width: 40,
-    height: 40
+  marker: {
+   /* width: 8,
+    height: 8,
+    borderRadius: 4,*/
+    backgroundColor: "rgba(130,4,150, 0.9)",
   },
-  extraContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end'
+  ring: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "rgba(130,4,150, 0.3)",
+    position: "absolute",
+    borderWidth: 1,
+    borderColor: "rgba(130,4,150, 0.5)",
   },
-  profileContainer: {
-    flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  profilePic: {
-    width: 80,
-    height: 80,
-  },
-  profileName: {
-    fontSize: 18,
-    color: '#800080'
-  },
-  logoutContainer: {
-    flex: 1,
-    alignItems: 'center', 
-    justifyContent: 'center'
-  },
-  logout: {
-    width: 200,
-    height: 30,
-    backgroundColor: '#800080',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center' 
-  },
-  logoutButton: {
-    fontSize: 15, 
-    color: 'white', 
-  },
-  navSection: {
-    flex: 2, 
-    alignItems: 'flex-start', 
-    justifyContent: 'flex-start', 
-  },
-  navTabContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    height: 50,
-  },
-  contentContainer: {
-    flex: 2
-  }
-})
+});

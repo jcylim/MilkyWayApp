@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, ScrollView, Text, StatusBar, TouchableOpacity, Platform } from 'react-native';
+import { View, ScrollView, Text, StatusBar, TouchableOpacity, Platform, ToastAndroid } from 'react-native';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import styleSlider, { sliderWidth, itemWidth } from '../components/testSliderStyle';
 //import SliderEntry from '../components/testSlider';
@@ -12,25 +12,29 @@ const SLIDER_1_FIRST_ITEM = 1;
 
 export default class NearMeCards extends Component {
 
+  static propTypes = {
+    onNearMePressed: PropTypes.func, 
+  };
+
   constructor (props) {
     super(props);
     this.state = {
       slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
       slider1Ref: null
     };
+    this._renderItemWithParallax = this._renderItemWithParallax.bind(this);
   }
 
-  image (item, index, parallaxProps) {
+  /*get image() {
     //const { data: { illustration }, parallax, parallaxProps, even } = this.props;
     return true ? (
         <ParallaxImage
-          source={{ uri: item }}
+          source={{ uri: illustration }}
           containerStyle={[styleSlider.imageContainer, (index + 1) % 2 === 0 ? styleSlider.imageContainerEven : {}]}
           style={[styleSlider.image, { position: 'relative' }]}
           parallaxFactor={0.35}
           showSpinner={true}
-          spinnerColor={(index + 1) % 2 === 0 ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
-          {...parallaxProps}
+          spinnerColor={((index + 1) % 2 === 0) ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
         />
     ) : (
         <Image
@@ -38,10 +42,12 @@ export default class NearMeCards extends Component {
           style={styleSlider.image}
         />
     );
-  }
+  }*/
 
-  _renderItemWithParallax ({item, index}, parallaxProps) {
+  _renderItemWithParallax({item, index}, parallaxProps) {
 
+    //const link = item.illustration;
+    const even = (index + 1) % 2 === 0;
     const cardsTitle = (
       <Text
         style={styleSlider.title}
@@ -56,16 +62,24 @@ export default class NearMeCards extends Component {
         style={styleSlider.slideInnerContainer}
         onPress={this.props.onNearMePressed}>
           <View style={styleSlider.imageContainer}>
-              { this.image(item, index, parallaxProps) }
-              <View style={styleSlider.radiusMask} />
+            <ParallaxImage
+              source={{ uri: item.illustration }}
+              containerStyle={[styleSlider.imageContainer, even ? styleSlider.imageContainerEven : {}]}
+              style={[styleSlider.image, { position: 'relative' }]}
+              parallaxFactor={0.35}
+              showSpinner={true}
+              spinnerColor={even ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
+              {...parallaxProps}
+            />
+            <View style={styleSlider.radiusMask} />
           </View>
           <View style={styleSlider.textContainer}>
-              { cardsTitle }
-              <Text
-                style={styleSlider.subtitle}
-                numberOfLines={2}>
-                  { 'Number of miles away' }
-              </Text>
+            { cardsTitle }
+            <Text
+              style={styleSlider.subtitle}
+              numberOfLines={2}>
+                { 'Number of miles away' }
+            </Text>
           </View>
       </TouchableOpacity>
     );
@@ -78,7 +92,7 @@ export default class NearMeCards extends Component {
             <Text style={styles.title}>Near Me</Text>
             <Carousel
               data={ENTRIES2}
-              renderItem={this._renderItemWithParallax.bind(this)}
+              renderItem={this._renderItemWithParallax}
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
               hasParallaxImages={true}
@@ -87,7 +101,7 @@ export default class NearMeCards extends Component {
               enableMomentum={true}
               autoplay={true}
               autoplayDelay={1500}
-              autoplayInterval={1500}
+              autoplayInterval={3000}
               containerCustomStyle={styles.slider}
               contentContainerCustomStyle={styles.sliderContentContainer}
             />
@@ -96,10 +110,6 @@ export default class NearMeCards extends Component {
     );
   }
 }
-
-NearMeCards.propTypes = {
-  onNearMePressed: PropTypes.func, 
-};
 
   /*_renderItemWithParallax ({item, index}, parallaxProps) {
     return (
