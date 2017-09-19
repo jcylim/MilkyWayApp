@@ -19,7 +19,7 @@ import State from './state'
 export default class MilkyWayApp extends Component {
   render() {
     return (
-      <Test />
+      <NearMeMap />
     );
   }
 }
