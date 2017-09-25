@@ -137,6 +137,7 @@ export default class Explore extends Component {
     nearMePressed = () => {
         const navAction = NavigationActions.navigate({
           routeName: 'NearMeMap',
+          //params: {...samples}
           // navigate can have a nested navigate action that will be run inside the child router
           //action: NavigationActions.navigate({ routeName: 'Explore'})
       	})

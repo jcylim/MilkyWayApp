@@ -15,7 +15,7 @@ export default class NearMeCards extends Component {
   static propTypes = {
     onNearMePressed: PropTypes.func, 
   };
-
+  
   constructor (props) {
     super(props);
     this.state = {
@@ -63,7 +63,7 @@ export default class NearMeCards extends Component {
         onPress={this.props.onNearMePressed}>
           <View style={styleSlider.imageContainer}>
             <ParallaxImage
-              source={{ uri: item.illustration }}
+              source={{ uri: item.image }}
               containerStyle={[styleSlider.imageContainer, even ? styleSlider.imageContainerEven : {}]}
               style={[styleSlider.image, { position: 'relative' }]}
               parallaxFactor={0.35}
@@ -91,7 +91,7 @@ export default class NearMeCards extends Component {
         <View style={styles.exampleContainer}>
             <Text style={styles.title}>Near Me</Text>
             <Carousel
-              data={ENTRIES2}
+              data={samples}
               renderItem={this._renderItemWithParallax}
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}

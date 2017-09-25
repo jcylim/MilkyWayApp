@@ -11,14 +11,16 @@ const { width, height } = Dimensions.get('window')
 const screenHeight = height
 const screenWidth = width
 const aspectRatio = width/height
-const latDelta = 0.0922
-const longDelta = latDelta*aspectRatio
+const latDelta = 0.000922 //0.0922
+const longDelta =  0.000922 //latDelta*aspectRatio
 const CARD_HEIGHT = height / 3;
 const CARD_WIDTH = CARD_HEIGHT + 50;
 
+//const { coordinate } = this.props.navigation.state.params;
+
 export default class NearMeMap extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       initialPosition: {
         latitude: 0,
@@ -37,6 +39,17 @@ export default class NearMeMap extends Component {
     this.index = 0;
     this.animation = new Animated.Value(0);
   }
+
+  /*componentDidMount() {
+    this.map.animateToRegion(
+      {
+        ...coordinate,
+        latitudeDelta: latDelta,
+        longitudeDelta: longDelta,
+      },
+      350
+    );
+  }*/
 
   watchID: ?number = null
 
@@ -68,6 +81,7 @@ export default class NearMeMap extends Component {
       this.setState({initialPosition: lastRegion})
       this.setState({markerPosition: lastRegion}) 
     })
+
     this.animation.addListener(({ value }) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
       if (index >= Object.keys(samples).length) {
@@ -76,7 +90,7 @@ export default class NearMeMap extends Component {
       if (index <= 0) {
         index = 0;
       }
-      ToastAndroid.show(String(samples[index]), ToastAndroid.LONG);
+      
       clearTimeout(this.regionTimeout);
       this.regionTimeout = setTimeout(() => {
         if (this.index !== index) {
@@ -98,10 +112,6 @@ export default class NearMeMap extends Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
-
-  onPress = () => {
-    ToastAndroid.show(String(Object.keys(samples).length), ToastAndroid.LONG);
-  };
 
   render() {
     const interpolations = samples.map((marker, index) => {
@@ -135,10 +145,7 @@ export default class NearMeMap extends Component {
               <MapView.Marker
                 key={i}
                 pinColor={"rgba(130,4,150, 0.9)"}
-                coordinate={{ 
-                  latitude: location.latitude, 
-                  longitude: location.longitude 
-                }}/>
+                coordinate={ location.coordinate }/>
             );
           })}
           <MapView.Marker
@@ -156,7 +163,7 @@ export default class NearMeMap extends Component {
             [
               {
                 nativeEvent: {
-                  contentOsffset: {
+                  contentOffset: {
                     x: this.animation,
                   },
                 },
