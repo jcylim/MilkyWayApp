@@ -41,8 +41,7 @@ export default class ExploreContent extends Component {
               //featured
               //height={180}
               contentContainerStyle={{height: 70}}
-              onPress={this.props.onBusinessPressed}
-            >
+              onPress={this.props.onBusinessPressed}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={{fontSize: 12}}>Business Address</Text>
                 <View style={{flexDirection: 'row'}}>

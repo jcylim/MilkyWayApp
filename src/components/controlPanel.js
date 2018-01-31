@@ -67,7 +67,7 @@ export default class ControlPanel extends Component {
 		                  		name='loyalty'
 		                  		size={30}
 		                	/>
-		            		<Text style={{color: '#800080', fontSize: 20}}>  Subscriptions</Text>
+		            		<Text style={{color: '#800080', fontSize: 20}}>  Memberships</Text>
 		          	  	</View>
 		        	</TouchableOpacity>
 		     	</View>

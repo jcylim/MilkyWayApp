@@ -11,17 +11,25 @@ import {
 	Platform, 
 	StatusBar, 
 	Image } from 'react-native';
+import { Avatar } from 'react-native-elements'
 
 export default class Profile extends Component {
 
 	render() {
 		return (
 			<View style={styles.container}>
-		    	<Text>IM IN PROFILE </Text>
-		    	<TouchableOpacity
-			        onPress={() => this.props.navigation.goBack()}
-			        title="Go back home"
-			    />
+		    	<View style={styles.profileContainer}>
+		          	<Avatar
+				        large
+				        rounded
+				        icon={{name: 'person', color: '#800080'}}
+				        //source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+				    />
+			      	<Text style={styles.profileName}>Jonathan Lim</Text>
+			    </View>
+			    <View style={{flex: 3}}>
+			    	<Text>Profile Content</Text>
+			    </View>
 		    </View>
 	    );
 	}
@@ -60,5 +68,15 @@ const styles = StyleSheet.create({
 	},
 	extraContainer: {
 		flex: 1
-	}
+	},
+	profileContainer: {
+	    flex: 1,
+	    justifyContent: 'space-around',
+	    alignItems: 'center',
+	    backgroundColor: '#800080'
+	},
+	profileName: {
+		fontSize: 18,
+	    color: 'white'
+	},
 })

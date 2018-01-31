@@ -89,7 +89,7 @@ const ExploreStack = StackNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
-      title: 'Profile'
+      header: null
   }},
   Activity: {
     screen: Activity,
